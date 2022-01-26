@@ -23,8 +23,9 @@ The completed exercise is due on <>.
 
 1. Check your working directory, load necessary packages (tidyverse), and upload two datasets: the ECOTOX neonicotinoid dataset (ECOTOX_Neonicotinoids_Insects_raw.csv) and the Niwot Ridge NEON dataset for litter and woody debris (NEON_NIWO_Litter_massdata_2018-08_raw.csv). Name these datasets "Neonics" and "Litter", respectively. **Be sure to add the `stringsAsFactors = TRUE` parameter to the function when reading in the CSV files.**
 ```{r,  message = FALSE}
-USGS.flow.data <- read.csv("../Data/Raw/ECOTOX_Neonicotinoids_Insects_raw.csv")
-USGS.flow.data <- read.csv("../Data/Raw/NEON_NIWO_Litter_massdata_2018-08_raw.csv")
+library(tidyverse)
+Neonics <- read.csv("../Data/Raw/ECOTOX_Neonicotinoids_Insects_raw.csv",stringsAsFactors = TRUE) 
+Litter <- read.csv("../Data/Raw/NEON_NIWO_Litter_massdata_2018-08_raw.csv",stringsAsFactors = TRUE)
 ```
 
 ## Learn about your system
@@ -51,23 +52,23 @@ USGS.flow.data <- read.csv("../Data/Raw/NEON_NIWO_Litter_massdata_2018-08_raw.cs
 5. What are the dimensions of the dataset?
 
 ```{r}
-
+dim(Neonics)
 ```
 
 6. Using the `summary` function on the "Effect" column, determine the most common effects that are studied. Why might these effects specifically be of interest?
 ```{r}
-
+summary(Neonics$Effect)
 ```
 
-> Answer: 
+> Answer: Most common effects studied include mortality and population. 
 
 7. Using the `summary` function, determine the six most commonly studied species in the dataset (common name). What do these species have in common, and why might they be of interest over other insects? Feel free to do a brief internet search for more information if needed.
 
 ```{r}
-
+summary(Neonics$Species.Common.Name)
 ```
 
-> Answer: 
+> Answer: 6 most commonly studied species: Honey Bee, Parasitic Wasp, Buff Tailed Bumblebee, Carniolan Honey Bee, Bumble Bee, and the Italian Honeybee.   
 
 8. Concentrations are always a numeric value. What is the class of Conc.1..Author. in the dataset, and why is it not numeric?
 
@@ -99,6 +100,8 @@ Interpret this graph. What are the most common test locations, and do they diffe
 
 ```{r}
 
+
+# theme(axis.text.x = element_text(angle = 90)) rotates x axis 90 degrees
 ```
 
 > Answer: 
