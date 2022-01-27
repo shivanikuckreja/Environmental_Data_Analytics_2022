@@ -32,18 +32,19 @@ Litter <- read.csv("../Data/Raw/NEON_NIWO_Litter_massdata_2018-08_raw.csv",strin
 
 2. The neonicotinoid dataset was collected from the Environmental Protection Agency's ECOTOX Knowledgebase, a database for ecotoxicology research. Neonicotinoids are a class of insecticides used widely in agriculture. The dataset that has been pulled includes all studies published on insects. Why might we be interested in the ecotoxicologoy of neonicotinoids on insects? Feel free to do a brief internet search if you feel you need more background information. 
 
-> Answer: 
+> Answer: Neonicotinoids are insectisides that are much more toxic to insects than they are to mammals and other organisms. 
 
 3. The Niwot Ridge litter and woody debris dataset was collected from the National Ecological Observatory Network, which collectively includes 81 aquatic and terrestrial sites across 20 ecoclimatic domains. 32 of these sites sample forest litter and woody debris, and we will focus on the Niwot Ridge long-term ecological research (LTER) station in Colorado. Why might we be interested in studying litter and woody debris that falls to the ground in forests? Feel free to do a brief internet search if you feel you need more background information. 
 
-> Answer: 
+> Answer: Litter and woody debris that falls to the forest ground can help predict the health (e.g., nutrient cycling and soil fertility) of an ecosystem. 
 
 4. How is litter and woody debris sampled as part of the NEON network? Read the NEON_Litterfall_UserGuide.pdf document to learn more. List three pieces of salient information about the sampling methods here: 
 
-> Answer: 
-*
-*
-*
+> Answer: The litter and woody debris is measured by mass. 
+* Litter and fine woody debris is sampled at terrestrial NEON sites that contain woody vegetation more than 2m tall
+* Litter and fine woody debris is only sampled in tower plots 
+* Tower plots are placed randomly within the 90% flux footprint of the primary and
+secondary airsheds
 
 
 
@@ -60,7 +61,7 @@ dim(Neonics)
 summary(Neonics$Effect)
 ```
 
-> Answer: Most common effects studied include mortality and population. 
+> Answer: Most common effects studied include mortality and population, which would be of interest because neonicotinoids are very toxic to insects. 
 
 7. Using the `summary` function, determine the six most commonly studied species in the dataset (common name). What do these species have in common, and why might they be of interest over other insects? Feel free to do a brief internet search for more information if needed.
 
@@ -68,15 +69,15 @@ summary(Neonics$Effect)
 summary(Neonics$Species.Common.Name)
 ```
 
-> Answer: 6 most commonly studied species: Honey Bee, Parasitic Wasp, Buff Tailed Bumblebee, Carniolan Honey Bee, Bumble Bee, and the Italian Honeybee.   
+> Answer: 6 most commonly studied species: Honey Bee, Parasitic Wasp, Buff Tailed Bumblebee, Carniolan Honey Bee, Bumble Bee, and the Italian Honeybee. All six of these species are part of the Hymenoptera order of insects. Neonicotinoids are especially harmful to those of the Hymenoptera order of insects (specifically, to bees). Neonicotinoids are widely to blame for the recent decline in bee populations. Neonicotinoids are often absorbed by plants. When bees collect pollen from those plants, they often die from the toxicity of the neonicotinoids.      
 
 8. Concentrations are always a numeric value. What is the class of Conc.1..Author. in the dataset, and why is it not numeric?
 
 ```{r}
-
+class(Neonics$Conc.1..Author.)
 ```
 
-> Answer:
+> Answer: While most in the class are numbers, many numbers are followed by slashes. Some rows do not have numbers--instead, they have "NR"s. 
 
 
 
@@ -84,58 +85,82 @@ summary(Neonics$Species.Common.Name)
 
 9. Using `geom_freqpoly`, generate a plot of the number of studies conducted by publication year. 
 ```{r}
-
+ggplot(Neonics) +
+  geom_freqpoly(aes(x = Publication.Year) , bins = 10)
 ```
 
 10. Reproduce the same graph but now add a color aesthetic so that different Test.Location are displayed as different colors.
 ```{r}
-
+ggplot(Neonics) +
+  geom_freqpoly(aes(x = Publication.Year, color = Test.Location))
 ```
 
 Interpret this graph. What are the most common test locations, and do they differ over time?
 
-> Answer: 
+> Answer: Most common test locations are the lab and field natural. From about 1992 to 2000, field natural was more common than the lab. Since 2000, however, the lab has almost always been the more common test location compared to the field natural. Both test locations had little spikes over time and at least one big spike between 1990 and 2020.  
 
 11. Create a bar graph of Endpoint counts. What are the two most common end points, and how are they defined? Consult the ECOTOX_CodeAppendix for more information. 
 
 ```{r}
-
-
-# theme(axis.text.x = element_text(angle = 90)) rotates x axis 90 degrees
+ggplot(Neonics) +
+  geom_bar(aes(x = Endpoint)) +
+theme(axis.text.x = element_text(angle = 90)) #rotates x axis 90 degrees--learned in Office Hours!
 ```
 
-> Answer: 
+> Answer: The two most common endpoints are LOEL and NOEL. 
+LOEL = Lowest-observable-effect-level: lowest dose (concentration)
+producing effects that were significantly different (as reported
+by authors) from responses of controls (LOEAL/LOEC)
+NOEL = No-observable-effect-level: highest dose (concentration)
+producing effects not significantly different from responses of
+controls according to author's reported statistical test
+(NOEAL/NOEC)
 >
 
 ## Explore your data (Litter)
 
 12. Determine the class of collectDate. Is it a date? If not, change to a date and confirm the new class of the variable. Using the `unique` function, determine which dates litter was sampled in August 2018. 
 ```{r}
+class(Litter$collectDate) #It is not a date--it is a factor
+Litter$collectDate <- as.Date(Litter$collectDate, format = "%Y-%m-%d")
+class(Litter$collectDate) # Now a date
+
+unique(Litter$collectDate) 
 
 ```
+> Answer: 2018-08-02 and 2018-08-30
 
 13. Using the `unique` function, determine how many plots were sampled at Niwot Ridge. How is the information obtained from `unique` different from that obtained from `summary`?
 
 ```{r}
+length(unique(Litter$plotID))
+summary(Litter$plotID)
 
 ```
 
-> Answer: 
+> Answer: In Niwot Ridge, 12 different plots were sampled. "Unique" gives us the number of distinct plots sampled, whereas "summary" provides the frequency with which each plot was sampled, as well as tells us how many different plots there are (listed by name above). 
 
 14. Create a bar graph of functionalGroup counts. This shows you what type of litter is collected at the Niwot Ridge sites. Notice that litter types are fairly equally distributed across the Niwot Ridge sites.
 ```{r}
-
+ggplot(Litter) +
+  geom_bar(aes(x = functionalGroup)) +
+theme(axis.text.x = element_text(angle = 90)) #rotates x axis 90 degrees--learned in Office
 ```
 
 15. Using `geom_boxplot` and `geom_violin`, create a boxplot and a violin plot of dryMass by functionalGroup. 
 ```{r}
-
+ggplot(Litter) +
+  geom_boxplot(aes(x = dryMass, y = functionalGroup))
+```
+```{r}
+ggplot(Litter) +
+  geom_violin(aes(x = dryMass, y = functionalGroup))
 ```
 
 Why is the boxplot a more effective visualization option than the violin plot in this case?
 
-> Answer: 
+> Answer: Usually a violin plot is better than a boxplot because a violin plot shows the full distribution of data. In this case, however, the boxplot is more effective than the violin plot because the boxplot appears to show more of the distribution of data (including the mean, median, and outliers) whereas the violinlplot seems 1-dimensional.  
 
 What type(s) of litter tend to have the highest biomass at these sites? 
 
-> Answer: 
+> Answer: Needles and mixed 
