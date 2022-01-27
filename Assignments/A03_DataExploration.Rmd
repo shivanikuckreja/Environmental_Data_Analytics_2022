@@ -77,7 +77,7 @@ summary(Neonics$Species.Common.Name)
 class(Neonics$Conc.1..Author.)
 ```
 
-> Answer: While most in the class are numbers, many numbers are followed by slashes. Some rows do not have numbers--instead, they have "NR"s. 
+> Answer: While most in the class are numbers, many numbers are followed by slashes. In additionm, some rows do not have numbers--instead, they have "NR"s. 
 
 
 
@@ -128,7 +128,7 @@ class(Litter$collectDate) # Now a date
 unique(Litter$collectDate) 
 
 ```
-> Answer: 2018-08-02 and 2018-08-30
+> Answer: The class of collectData was initially not a date--it was a factor. Litter was sampled on 2018-08-02 and 2018-08-30. 
 
 13. Using the `unique` function, determine how many plots were sampled at Niwot Ridge. How is the information obtained from `unique` different from that obtained from `summary`?
 
