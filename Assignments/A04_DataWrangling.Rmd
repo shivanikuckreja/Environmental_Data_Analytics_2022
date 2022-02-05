@@ -130,20 +130,25 @@ EPArbind <- rbind(EPA.O3.18_Select, EPA.O3.19_Select, EPA.PM25.2018_Select, EPA.
 EPArbind_filter <- EPArbind %>% 
     filter(Site.Name %in% c("Linville Falls", "Durham Armory", "Leggett", "Hattie Avenue", "Clemmons Middle", "Mendenhall School", "Frying Pan Mountain", "West Johnston Co.", "Garinger High School", "Castle Hayne", "Pitt Agri. Center", "Bryson City", "Millbrook School")) %>%
   group_by(Date, Site.Name, AQS_PARAMETER_DESC, COUNTY) %>%
-  summarise(meanAQI = mean(EPArbind$DAILY_AQI_VALUE), 
-            meanlatitude = mean(EPArbind$SITE_LATITUDE), 
-            meanlongitude = mean(EPArbind$SITE_LONGITUDE)) %>%
+  summarize(meanAQI = mean(DAILY_AQI_VALUE), 
+            meanlatitude = mean(SITE_LATITUDE), 
+            meanlongitude = mean(SITE_LONGITUDE)) %>%
   mutate(Month = month(Date)) %>%
   mutate(Year = year(Date))
 
+dim(EPArbind_filter)
 # only has 7899 observations of 9 variables 
 
 #9
+EPArbind_spread <- separate(EPArbind, AQS_PARAMETER_DESC, c("Ozone", "PM2.5"))
+
 
 #10
+dim(EPArbind_spread) 
+
 
 #11
-
+write.csv(EPA.PM25.2019_Select, file = "../Data/Processed/EPAair_O3_PM25_NC2122_Processed.csv")
 ```
 
 
