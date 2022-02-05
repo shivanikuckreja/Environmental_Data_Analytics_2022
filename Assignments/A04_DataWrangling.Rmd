@@ -1,6 +1,6 @@
 ---
 title: "Assignment 4: Data Wrangling"
-author: "Student Name"
+author: "Shivani Kuckreja"
 output: pdf_document
 geometry: margin=2.54cm
 ---
@@ -24,9 +24,40 @@ The completed exercise is due on Monday, Feb 7 @ 7:00pm.
 2. Explore the dimensions, column names, and structure of the datasets. 
 
 ```{r, message = FALSE}
+
 #1
+getwd()
+#install.packages(tidyverse)
+library(tidyverse)
+#install.packages(lubridate)
+library(lubridate)
+EPA.O3.2018 <- read.csv("../Data/Raw/EPAair_O3_NC2018_raw.csv", stringsAsFactors = TRUE)
+EPA.O3.2019 <- read.csv("../Data/Raw/EPAair_O3_NC2019_raw.csv", stringsAsFactors = TRUE)
+EPA.PM25.2018 <- read.csv("../Data/Raw/EPAair_PM25_NC2018_raw.csv", stringsAsFactors = TRUE)
+EPA.PM25.2019 <- read.csv("../Data/Raw/EPAair_PM25_NC2019_raw.csv", stringsAsFactors = TRUE)
 
 #2
+
+#EPA.O3.2018
+dim(EPA.O3.2018) # 9737
+colnames(EPA.O3.2018)
+str(EPA.O3.2018)
+
+#EPA.O3.2019
+dim(EPA.O3.2019) # 8983
+colnames(EPA.O3.2019)
+str(EPA.O3.2019)
+
+#EPA.PM25.2018
+dim(EPA.PM25.2018) # 10592
+colnames(EPA.PM25.2018)
+str(EPA.PM25.2018)
+
+#EPA.PM25.2019
+dim(EPA.PM25.2019) # 8581
+colnames(EPA.PM25.2019)
+str(EPA.PM25.2019)
+
 ```
 
 ## Wrangle individual datasets to create processed files.
@@ -37,12 +68,43 @@ The completed exercise is due on Monday, Feb 7 @ 7:00pm.
 
 ```{r}
 #3
+class(EPA.O3.2018$Date) #originally a factor
+# Change date to date object
+EPA.O3.2018$Date <- as.Date(EPA.O3.2018$Date, format = "%m/%d/%y")
+
+class(EPA.O3.2019$Date) #originally a factor
+# Change date to date object
+EPA.O3.2019$Date <- as.Date(EPA.O3.2019$Date, format = "%m/%d/%y")
+
+class(EPA.PM25.2018$Date) #originally a factor
+# Change date to date object
+EPA.PM25.2018$Date <- as.Date(EPA.PM25.2018$Date, format = "%m/%d/%y")
+
+class(EPA.PM25.2019$Date) #originally a factor
+# Change date to date object
+EPA.PM25.2019$Date <- as.Date(EPA.PM25.2019$Date, format = "%m/%d/%y")
+
 
 #4
+EPA.O3.18_Select <- select(EPA.O3.2018, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+
+EPA.O3.19_Select <- select(EPA.O3.2019, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+
+EPA.PM25.2018_Select <- select(EPA.PM25.2018, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+
+EPA.PM25.2019_Select <- select(EPA.PM25.2019, Date, DAILY_AQI_VALUE, Site.Name, AQS_PARAMETER_DESC, COUNTY, SITE_LATITUDE, SITE_LONGITUDE)
+
 
 #5
+EPA.PM25.2018_Select$AQS_PARAMETER_DESC <- "PM2.5"
+EPA.PM25.2019_Select$AQS_PARAMETER_DESC <- "PM2.5"
+
 
 #6
+write.csv(EPA.O3.18_Select, file = "../Data/Processed/EPAair_O3_NC2018_Processed.csv")
+write.csv(EPA.O3.19_Select, file = "../Data/Processed/EPAair_O3_NC2019_Processed.csv")
+write.csv(EPA.PM25.2018_Select, file = "../Data/Processed/EPAair_PM25_NC2018_Processed.csv")
+write.csv(EPA.PM25.2019_Select, file = "../Data/Processed/EPAair_PM25_NC2019_Processed.csv")
 
 ```
 
@@ -62,8 +124,19 @@ The completed exercise is due on Monday, Feb 7 @ 7:00pm.
 
 ```{r}
 #7
+EPArbind <- rbind(EPA.O3.18_Select, EPA.O3.19_Select, EPA.PM25.2018_Select, EPA.PM25.2019_Select)
 
 #8
+EPArbind_filter <- EPArbind %>% 
+    filter(Site.Name %in% c("Linville Falls", "Durham Armory", "Leggett", "Hattie Avenue", "Clemmons Middle", "Mendenhall School", "Frying Pan Mountain", "West Johnston Co.", "Garinger High School", "Castle Hayne", "Pitt Agri. Center", "Bryson City", "Millbrook School")) %>%
+  group_by(Date, Site.Name, AQS_PARAMETER_DESC, COUNTY) %>%
+  summarise(meanAQI = mean(EPArbind$DAILY_AQI_VALUE), 
+            meanlatitude = mean(EPArbind$SITE_LATITUDE), 
+            meanlongitude = mean(EPArbind$SITE_LONGITUDE)) %>%
+  mutate(Month = month(Date)) %>%
+  mutate(Year = year(Date))
+
+# only has 7899 observations of 9 variables 
 
 #9
 
