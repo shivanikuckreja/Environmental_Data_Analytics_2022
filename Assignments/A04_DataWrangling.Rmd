@@ -166,8 +166,9 @@ write.csv(EPArbind_spread, file = "../Data/Processed/EPAair_O3_PM25_NC2122_Proce
 EPArbind_spread_summaries <- EPArbind_spread %>%
   group_by(Date, Site.Name, Month, Year) %>%
   summarize(meanOzone = mean(Ozone), 
-            meanPM2.5 = mean(PM2.5)) %>% #
-            drop_na(NA)
+            meanPM2.5 = mean(PM2.5)) %>% 
+  filter(!is.na(meanOzone) & !is.na(meanPM2.5))
+           
 
 #13
 dim(EPArbind_spread_summaries) 
@@ -175,4 +176,13 @@ dim(EPArbind_spread_summaries)
 
 14. Why did we use the function `drop_na` rather than `na.omit`?
 
-> Answer: 
+
+```{r}
+#14
+
+#drop_na(EPArbind_spread_summaries)
+
+#na.omit(EPArbind_spread_summaries)
+```
+
+> Answer: Drop_na removes any "NA" in the columns I list inside the paranthesis. Na_omit 
