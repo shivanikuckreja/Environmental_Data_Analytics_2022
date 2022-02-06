@@ -70,19 +70,19 @@ str(EPA.PM25.2019)
 #3
 class(EPA.O3.2018$Date) #originally a factor
 # Change date to date object
-EPA.O3.2018$Date <- as.Date(EPA.O3.2018$Date, format = "%m/%d/%y")
+EPA.O3.2018$Date <- mdy(EPA.O3.2018$Date)
 
 class(EPA.O3.2019$Date) #originally a factor
 # Change date to date object
-EPA.O3.2019$Date <- as.Date(EPA.O3.2019$Date, format = "%m/%d/%y")
+EPA.O3.2019$Date <- mdy(EPA.O3.2019$Date)
 
 class(EPA.PM25.2018$Date) #originally a factor
 # Change date to date object
-EPA.PM25.2018$Date <- as.Date(EPA.PM25.2018$Date, format = "%m/%d/%y")
+EPA.PM25.2018$Date <- mdy(EPA.PM25.2018$Date)
 
 class(EPA.PM25.2019$Date) #originally a factor
 # Change date to date object
-EPA.PM25.2019$Date <- as.Date(EPA.PM25.2019$Date, format = "%m/%d/%y")
+EPA.PM25.2019$Date <- mdy(EPA.PM25.2019$Date)
 
 
 #4
@@ -137,23 +137,24 @@ EPArbind <- EPArbind %>%
   mutate(Year = year(Date))
 
 dim(EPArbind)
-# only has 7899 observations of 9 variables 
+# has 14752 observations of 9 variables 
 
 #9
-EPArbind_spread <- EPArbind %>% pivot_wider(AQS_PARAMETER_DESC, meanAQI)
+EPArbind_spread <- EPArbind %>% pivot_wider(names_from = AQS_PARAMETER_DESC, values_from = meanAQI)
 
 
 #10
 dim(EPArbind_spread) 
-
+# 8976 observations of 9 variables
 
 #11
-write.csv(EPA.PM25.2019_Select, file = "../Data/Processed/EPAair_O3_PM25_NC2122_Processed.csv")
+write.csv(EPArbind_spread, file = "../Data/Processed/EPAair_O3_PM25_NC2122_Processed.csv")
 ```
 
 
 ## Generate summary tables
 12a. Use the split-apply-combine strategy to generate a summary data frame from your results from Step 9 above. Data should be grouped by site, month, and year. Generate the mean AQI values for ozone and PM2.5 for each group. 
+
 
 12b. BONUS: Add a piped statement to 12a that removes rows where both mean ozone and mean PM2.5 have missing values. 
 
@@ -162,10 +163,14 @@ write.csv(EPA.PM25.2019_Select, file = "../Data/Processed/EPAair_O3_PM25_NC2122_
 
 ```{r}
 #12(a,b)
-
+EPArbind_spread_summaries <- EPArbind_spread %>%
+  group_by(Date, Site.Name, Month, Year) %>%
+  summarize(meanOzone = mean(Ozone), 
+            meanPM2.5 = mean(PM2.5)) %>% #
+            drop_na(NA)
 
 #13
-
+dim(EPArbind_spread_summaries) 
 ```
 
 14. Why did we use the function `drop_na` rather than `na.omit`?
