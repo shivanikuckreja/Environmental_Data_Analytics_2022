@@ -185,4 +185,4 @@ dim(EPArbind_spread_summaries)
 #na.omit(EPArbind_spread_summaries)
 ```
 
-> Answer: Drop_na removes any "NA" in the columns I list inside the paranthesis. Na_omit 
+> Answer: Drop_na removes any "NA" in the columns I list inside the paranthesis. 
