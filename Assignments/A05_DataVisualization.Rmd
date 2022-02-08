@@ -1,6 +1,6 @@
 ---
 title: "Assignment 5: Data Visualization"
-author: "Student Name"
+author: "Shivani Kuckreja"
 output: pdf_document
 geometry: margin=2.54cm
 editor_options: 
@@ -33,6 +33,17 @@ the processed data file for the Niwot Ridge litter dataset (use the [`NEON_NIWO_
 
 ```{r}
 #1 
+getwd()
+library(tidyverse)
+#install.packages("cowplot")
+library(cowplot)
+
+
+PeterPaul_chem_nutrients <- 
+  read.csv("./Data/Processed/NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv")
+
+NW_litter <-
+  read.csv("./Data/Processed/NEON_NIWO_Litter_mass_trap_Processed.csv")
 
 #2 
 
