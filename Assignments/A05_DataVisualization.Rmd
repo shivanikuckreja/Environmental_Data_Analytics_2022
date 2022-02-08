@@ -46,14 +46,37 @@ NW_litter <-
   read.csv("./Data/Processed/NEON_NIWO_Litter_mass_trap_Processed.csv")
 
 #2 
+class(PeterPaul_chem_nutrients$sampledate) #originally a character
+# Change date to date object
+PeterPaul_chem_nutrients$sampledate <- ymd(PeterPaul_chem_nutrients$sampledate)
+
+class(NW_litter$collectDate) #originally a character
+# Change date to date object
+NW_litter$collectDate <- ymd(NW_litter$collectDate)
 
 ```
 ## Define your theme
 3. Build a theme and set it as your default theme.
 
-```{r}
+```{r, fig.height = 3, fig.width = 4, warning = FALSE}
 #3
 
+#PeterPaul_chem_nutrients_theme <- ggplot(PeterPaul_chem_nutrients) +
+  #geom_point(aes(x = Date, y = Ozone)) +
+  #theme_gray()
+#print(PeterPaul_chem_nutrients_theme)
+
+
+#NW_litter_theme <- ggplot(NW_litter) +
+  #geom_point(aes(x = Date, y = Ozone)) +
+ # theme_gray()
+#print(NW_litter_theme)
+
+mytheme <- theme_classic(base_size = 14) +
+  theme(axis.text = element_text(color = "blue"), 
+        legend.position = "top") #alternative: legend.position + legend.justification
+
+theme_set(mytheme)
 ```
 
 ## Create graphs
@@ -63,6 +86,7 @@ For numbers 4-7, create ggplot graphs and adjust aesthetics to follow best pract
 
 ```{r}
 #4
+
 
 ```
 
