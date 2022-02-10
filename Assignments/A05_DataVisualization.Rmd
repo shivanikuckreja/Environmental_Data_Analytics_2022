@@ -86,8 +86,15 @@ For numbers 4-7, create ggplot graphs and adjust aesthetics to follow best pract
 
 ```{r}
 #4
+NTLLTER_Plot <- ggplot(filter(PeterPaul.chem.nutrients)) +
+  geom_point(aes(x = tp_ug, y = po4, color=year4)) +
+  facet_wrap('lakename') +
+  ylab('Po4')
+  xlim(-7, 1000) +
+  ylim(0, 20)+
+print(NTLLTER_Plot)
 
-
+  # geom_line(color = "black") # how do I add a best fit line? 
 ```
 
 
