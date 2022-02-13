@@ -37,10 +37,8 @@ the processed data file for the Niwot Ridge litter dataset (use the [`NEON_NIWO_
 2. Make sure R is reading dates as date format; if not change the format to date.
 
 ```{r}
-#1
-library(formatR)
-knitr::opts_chunk$set(tidy.opts=list(width.cutoff=60), tidy=TRUE, echo=TRUE)
 
+#1
 getwd()
 library(tidyverse)
 #install.packages("cowplot")
@@ -185,4 +183,5 @@ facet_wrap('nlcdClass')
 Question: Which of these plots (6 vs. 7) do you think is more effective, and why? 
 
 > Answer: Plot 6 is more effective because it allows easier comparison across 
-NLCD classes. Plot 7 only allows easier comparison by year within each NLCD class.  
+NLCD classes. Plot 7 only allows easier comparison by year within each 
+NLCD class.  
