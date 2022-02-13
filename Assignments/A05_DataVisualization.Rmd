@@ -37,18 +37,23 @@ the processed data file for the Niwot Ridge litter dataset (use the [`NEON_NIWO_
 2. Make sure R is reading dates as date format; if not change the format to date.
 
 ```{r}
-
 #1
 getwd()
+
 library(tidyverse)
 #install.packages("cowplot")
 library(cowplot)
 
 
-PeterPaul_chem_nutrients <- 
-  read.csv(paste0("./Data/Processed/",
-             "NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv"))
-
+#PeterPaul_chem_nutrients <- 
+  #read.csv(paste0("./Data/Processed/",
+          #   "NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv"))
+#Above comments = me trying to keep the text within the PDF page limits
+  
+PeterPaul_chem_nutrients <-
+  read.csv("./Data/Processed/NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv")
+  
+  
 NW_litter <-
   read.csv("./Data/Processed/NEON_NIWO_Litter_mass_trap_Processed.csv")
 
@@ -106,6 +111,7 @@ Make sure that only one legend is present and that graph axes are aligned.
 
 ```{r}
 #5
+PeterPaul.chem.nutrients$month <- as.numeric(PeterPaul.chem.nutrients$month)
 
 NTLLTER_BoxPlot_Temp <- ggplot(PeterPaul.chem.nutrients, 
                                aes(x = month, y = temperature_C, 
@@ -180,8 +186,10 @@ facet_wrap('nlcdClass')
 
 
 ```
-Question: Which of these plots (6 vs. 7) do you think is more effective, and why? 
+Question: Which of these plots (6 vs. 7) do you think is more effective, 
+and why? 
 
-> Answer: Plot 6 is more effective because it allows easier comparison across 
+> Answer: 
+Plot 6 is more effective because it allows easier comparison across 
 NLCD classes. Plot 7 only allows easier comparison by year within each 
 NLCD class.  
