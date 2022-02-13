@@ -48,7 +48,8 @@ library(cowplot)
 
 
 PeterPaul_chem_nutrients <- 
-  read.csv("./Data/Processed/NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv")
+  read.csv(paste0("./Data/Processed/",
+             "NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv"))
 
 NW_litter <-
   read.csv("./Data/Processed/NEON_NIWO_Litter_mass_trap_Processed.csv")
@@ -88,7 +89,8 @@ limits using `xlim()` and `ylim()`).
 
 ```{r}
 #4
-NTLLTER_Plot <- ggplot(PeterPaul.chem.nutrients, aes(x = tp_ug, y = po4, color=lakename)) +
+NTLLTER_Plot <- ggplot(PeterPaul.chem.nutrients, aes(x = tp_ug, y = po4, 
+                                                      color=lakename)) +
   geom_point() +
   geom_smooth(method = lm, color = "grey") +
   ylab('Po4') +
@@ -107,20 +109,25 @@ Make sure that only one legend is present and that graph axes are aligned.
 ```{r}
 #5
 
-NTLLTER_BoxPlot_Temp <- ggplot(PeterPaul.chem.nutrients, aes(x = month, y = temperature_C, color=lakename)) +
+NTLLTER_BoxPlot_Temp <- ggplot(PeterPaul.chem.nutrients, 
+                               aes(x = month, y = temperature_C, 
+                                   color=lakename)) +
   geom_boxplot() +
   scale_y_continuous(expand = c(0, 0)) +
   theme(legend.position = "right")
 print(NTLLTER_BoxPlot_Temp)
 
-NTLLTER_BoxPlot_TP <- ggplot(PeterPaul.chem.nutrients, aes(x = month, y = tp_ug, color=lakename)) +
+NTLLTER_BoxPlot_TP <- ggplot(PeterPaul.chem.nutrients, aes(x = month, 
+                                                          y = tp_ug, 
+                                                          color=lakename)) +
   geom_boxplot() +
   scale_y_continuous(expand = c(0, 0)) +
   theme(legend.position = "right")
 print(NTLLTER_BoxPlot_TP)
 
 
-NTLLTER_BoxPlot_TN <- ggplot(PeterPaul.chem.nutrients, aes(x = month, y = tn_ug, color=lakename)) +
+NTLLTER_BoxPlot_TN <- ggplot(PeterPaul.chem.nutrients, 
+                             aes(x = month, y = tn_ug, color=lakename)) +
   geom_boxplot() +
   scale_y_continuous(expand = c(0, 0)) +
   theme(legend.position = "right")
@@ -128,7 +135,8 @@ print(NTLLTER_BoxPlot_TN)
 
 #install.packages("cowplot") 
 library(cowplot)
-plot_grid(NTLLTER_BoxPlot_Temp, NTLLTER_BoxPlot_TP, NTLLTER_BoxPlot_TN, nrow = 3, align = 'h', rel_heights = c(1.25, 1)) 
+plot_grid(NTLLTER_BoxPlot_Temp, NTLLTER_BoxPlot_TP, 
+          NTLLTER_BoxPlot_TN, nrow = 3, align = 'h', rel_heights = c(1.25, 1)) 
 
 ```
 
@@ -177,4 +185,4 @@ facet_wrap('nlcdClass')
 Question: Which of these plots (6 vs. 7) do you think is more effective, and why? 
 
 > Answer: Plot 6 is more effective because it allows easier comparison across 
-NLCD classes. Plot 7 allows easier comparison by year within each NLCD class.  
+NLCD classes. Plot 7 only allows easier comparison by year within each NLCD class.  
