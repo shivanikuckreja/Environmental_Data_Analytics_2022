@@ -7,7 +7,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-#install.packages("formatR")
+#install.packages("formatR") 
 
 ## OVERVIEW
 
