@@ -42,10 +42,10 @@ getwd()
 library(tidyverse)
 #install.packages("cowplot")
 library(cowplot)
+library(lubridate)
   
 PeterPaul_chem_nutrients <-
   read.csv("./Data/Processed/NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv")
-  
   
 NW_litter <-
   read.csv("./Data/Processed/NEON_NIWO_Litter_mass_trap_Processed.csv")
@@ -85,7 +85,7 @@ limits using `xlim()` and `ylim()`).
 
 ```{r}
 #4
-NTLLTER_Plot <- ggplot(PeterPaul.chem.nutrients, aes(x = tp_ug, y = po4, 
+NTLLTER_Plot <- ggplot(PeterPaul_chem_nutrients, aes(x = tp_ug, y = po4, 
                                                       color=lakename)) +
   geom_point() +
   geom_smooth(method = lm, color = "grey") +
@@ -104,9 +104,9 @@ Make sure that only one legend is present and that graph axes are aligned.
 
 ```{r}
 #5
-PeterPaul.chem.nutrients$month <- as.numeric(PeterPaul.chem.nutrients$month)
+PeterPaul_chem_nutrients$month <- as.numeric(PeterPaul_chem_nutrients$month)
 
-NTLLTER_BoxPlot_Temp <- ggplot(PeterPaul.chem.nutrients, 
+NTLLTER_BoxPlot_Temp <- ggplot(PeterPaul_chem_nutrients, 
                                aes(x = month, y = temperature_C, 
                                    color=lakename)) +
   geom_boxplot() +
@@ -114,7 +114,7 @@ NTLLTER_BoxPlot_Temp <- ggplot(PeterPaul.chem.nutrients,
   theme(legend.position = "right")
 print(NTLLTER_BoxPlot_Temp)
 
-NTLLTER_BoxPlot_TP <- ggplot(PeterPaul.chem.nutrients, aes(x = month, 
+NTLLTER_BoxPlot_TP <- ggplot(PeterPaul_chem_nutrients, aes(x = month, 
                                                           y = tp_ug, 
                                                           color=lakename)) +
   geom_boxplot() +
@@ -123,7 +123,7 @@ NTLLTER_BoxPlot_TP <- ggplot(PeterPaul.chem.nutrients, aes(x = month,
 print(NTLLTER_BoxPlot_TP)
 
 
-NTLLTER_BoxPlot_TN <- ggplot(PeterPaul.chem.nutrients, 
+NTLLTER_BoxPlot_TN <- ggplot(PeterPaul_chem_nutrients, 
                              aes(x = month, y = tn_ug, color=lakename)) +
   geom_boxplot() +
   scale_y_continuous(expand = c(0, 0)) +
