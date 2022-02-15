@@ -51,6 +51,7 @@ summary(Litter.Totals$plotID)
 # shapiro.test() performs the Shapiro-Wilk test of the null that data follows a normal distribution
 
 shapiro.test(Litter.Totals$dryMass[Litter.Totals$plotID == "NIWO_040"])
+#hist(Litter.Totals$dryMass[Litter.Totals$plotID == "NIWO_040"])
 shapiro.test(Litter.Totals$dryMass[Litter.Totals$plotID == "NIWO_041"])
 shapiro.test(Litter.Totals$dryMass[Litter.Totals$plotID == "NIWO_046"])
 shapiro.test(Litter.Totals$dryMass[Litter.Totals$plotID == "NIWO_047"])

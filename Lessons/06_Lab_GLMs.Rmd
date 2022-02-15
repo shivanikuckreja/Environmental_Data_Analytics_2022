@@ -1,7 +1,7 @@
 ---
 title: "6: Part 1 - Generalized Linear Models"
 author: "Environmental Data Analytics | John Fay and Luana Lima | Developed by Kateri Salk"
-date: "Spring 2022"
+date: "Spring 2022" 
 output: pdf_document
 geometry: margin=2.54cm
 editor_options: 
@@ -74,9 +74,10 @@ Are Ozone levels below the threshold for "good" AQI index (0-50)?
 
 summary(EPAair$Ozone)
 EPAair.subsample <- sample_n(EPAair, 5000)
+#mean is 40.88. But what if we did another sample? Is that also below 50? This is what T-test tests for 
 
 # Evaluate assumption of normal distribution
-shapiro.test((EPAair.subsample$Ozone))
+shapiro.test((EPAair.subsample$Ozone)) #data is not normal 
 ggplot(EPAair, aes(x = Ozone)) +
   geom_histogram() 
 qqnorm(EPAair$Ozone); qqline(EPAair$Ozone)
