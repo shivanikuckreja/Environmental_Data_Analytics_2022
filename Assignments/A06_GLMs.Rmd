@@ -27,10 +27,23 @@ The completed exercise is due on Monday, February 28 at 7:00 pm.
 
 ```{r setup}
 #1
+getwd()
+library(tidyverse)
+#install.packages("agricolae")
+library(agricolae)   
+ChemPhysRawData <- read.csv("./Data/Raw/NTL-LTER_Lake_ChemistryPhysics_Raw.csv", stringsAsFactors = TRUE)
+
+class(ChemPhysRawData$sampledate) #originally a factor
+# Change date to date object
+ChemPhysRawData$sampledate <- mdy(ChemPhysRawData$sampledate)
 
 
 #2
+mytheme <- theme_classic(base_size = 14) +
+  theme(axis.text = element_text(color = "blue"), 
+legend.position = "top") #alternative: legend.position + legend.justification
 
+theme_set(mytheme)
 
 ```
 
@@ -39,8 +52,8 @@ Our first research question is: Does mean lake temperature recorded during July 
 
 3. State the null and alternative hypotheses for this question:
 > Answer:
-H0: 
-Ha: 
+H0: There is no relationship between mean lake temperature in July and depth across lakes. 
+Ha: Mean lake temperature in July decreases as depth increases across lakes. 
 
 
 4.  Wrangle your NTL-LTER dataset with a pipe function so that the records meet the following criteria: 
@@ -52,10 +65,16 @@ Ha:
 
 ```{r scatterplot}
 #4
+# How do I get only the columns: `lakename`, `year4`, `daynum`, `depth`, `temperature_C`?
 
+ChemPhysTempDepth <- ChemPhysRawData %>% 
+group_by(lakename, year4, daynum, depth, temperature_C) %>%
+mutate(Month = month(sampledate)) %>% 
+filter(Month %in% c("7")) %>%
+filter(!is.na(lakename) & !is.na(year4) & !is.na(daynum) & !is.na(depth) & !is.na(temperature_C))
 
 #5
-
+plot(x=temperature_C, y=depth)
 
 ```
 
