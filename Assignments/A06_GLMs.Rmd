@@ -188,8 +188,20 @@ Create two sets of models: one expressed as an ANOVA models and another
 expressed as a linear model (as done in our lessons).
 
 ```{r anova.model}
+
 #12
 
+# Format ANOVA as aov
+LakeTempJuly.Anova <- aov(data = ChemPhysTempDepth, temperature_C ~ lakename)
+summary(LakeTempJuly.Anova)
+
+# Format ANOVA as lm
+LakeTempJuly.Anova2 <- lm(data = ChemPhysTempDepth, temperature_C ~ lakename)
+summary(LakeTempJuly.Anova2)
+
+# Checking model fit and assumptions
+# ANOVA is robust against departures from normality.
+plot(LakeTempJuly.Anova2)
 
 ```
 
@@ -197,7 +209,8 @@ expressed as a linear model (as done in our lessons).
 Report your findings. 
 
 > Answer: 
-
+Yes, there is a significant difference in mean temperature among the lakes, as
+the p-value is around 2e-16, which is less than 0.05. 
 
 
 14. Create a graph that depicts temperature by depth, with a separate color 
@@ -207,29 +220,43 @@ from 0 to 35 degrees. Clean up your graph to make it pretty.
 
 ```{r scatterplot.2}
 #14.
-
+TempbyDepthByLake <- 
+  ggplot(ChemPhysTempDepth, aes(x = depth, y = temperature_C, color=lakename)) +
+  ylim(0, 35) +
+  geom_point(alpha = 0.5) +
+  geom_smooth (method = "lm", se = FALSE) 
+print(TempbyDepthByLake)
 
 ```
 
 15. Use the Tukey's HSD test to determine which lakes have different means.
 
 ```{r tukey.test}
+
 #15
+# Post-hoc test
+# TukeyHSD() computes Tukey Honest Significant Differences
+TukeyHSD(LakeTempJuly.Anova)
 
-
+# Extract groupings for pairwise relationships
+LakeTempJulyGroups <- HSD.test(LakeTempJuly.Anova, "lakename", group = TRUE)
+LakeTempJulyGroups
 ```
 
 16.From the findings above, which lakes have the same mean temperature, 
 statistically speaking, as Peter Lake? Does any lake have a mean temperature 
 that is statistically distinct from all the other lakes?
 
->Answer:
-
- 
+>Answer: 
+From the findings above, the following lakes have the same mean temperature, 
+statistically speaking, as Peter Lake: Central Long Lake, Crampton Lake, 
+Ward Lake, Paul Lake,East Long Lake, Hummingbird Lake, Tuesday Lake,
+and West Long Lake. No lake has a mean temperature that is statistically 
+distinct from all the other lakes. 
 
 17. If we were just looking at Peter Lake and Paul Lake. What's another test 
 we might explore to see whether they have distinct mean temperatures? 
 
 >Answer: 
-
+Bartlett's test, which tests for variance between groups. 
 
