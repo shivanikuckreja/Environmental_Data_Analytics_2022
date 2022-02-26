@@ -63,8 +63,9 @@ change with depth across all lakes?
 3. State the null and alternative hypotheses for this question:
 > Answer:
 H0: There is no relationship between mean lake temperature in July and depth
-across lakes. 
-Ha: Mean lake temperature in July decreases as depth increases across lakes. 
+across lakes (the slope is equal to zero)
+Ha: The slope is not equal to zero (For example: Mean lake temperature 
+in July decreases as depth increases across lakes.)
 
 
 4.  Wrangle your NTL-LTER dataset with a pipe function so that the records 
@@ -80,17 +81,22 @@ look pretty and easy to read.
 
 ```{r scatterplot}
 #4
-# How do I get only the columns: `lakename`, `year4`, `daynum`, `depth`, `temperature_C`?
 
 ChemPhysTempDepth <- ChemPhysRawData %>% 
-group_by(lakename, year4, daynum, depth, temperature_C) %>%
-mutate(Month = month(sampledate)) %>% 
+mutate(Month = month(sampledate)) %>%
 filter(Month %in% c("7")) %>%
+select(lakename, year4, daynum, depth, temperature_C) %>%
 filter(!is.na(lakename) & !is.na(year4) & !is.na(daynum) &
          !is.na(depth) & !is.na(temperature_C))
 
 #5
-plot(x=temperature_C, y=depth)
+
+TempbyDepth <- 
+  ggplot(ChemPhysTempDepth, aes(x = depth, y = temperature_C)) +
+  ylim(0, 35) +
+  geom_point() +
+  geom_smooth(method = lm, color = "grey") 
+print(TempbyDepth) 
 
 ```
 
@@ -100,6 +106,10 @@ of temperature to depth? Do the distribution of points suggest about anything
 about the linearity of this trend?
 
 > Answer: 
+The figure suggests that, as depth increases, temperature decreases. It
+is worth noting that there is increased variability in data points collected in 
+shallower water vs. in deeper water, which undermines the linearity of 
+the trend. 
 
 
 7. Perform a linear regression to test the relationship and display the results
@@ -107,6 +117,9 @@ about the linearity of this trend?
 ```{r linear.regression}
 #7
 
+Temp.Depth.Regression <- 
+  lm(ChemPhysTempDepth$temperature_C ~ ChemPhysTempDepth$depth)
+summary(Temp.Depth.Regression)
 
 ```
 
@@ -118,7 +131,12 @@ Also mention how much temperature is predicted to change for every 1m
 change in depth. 
 
 > Answer:
-
+74 % of the variability in temperature is explained by changes in depth. 
+This finding is based upon 9726 degrees of freedom. 
+This result is statistically significant, as the p value is 2e-16 which is
+less than 0.05. 
+For every 1m change in depth, temperature is expected to change by about 2 
+degrees Celcius. 
 
 ---
 
