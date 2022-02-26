@@ -131,7 +131,7 @@ Also mention how much temperature is predicted to change for every 1m
 change in depth. 
 
 > Answer:
-74 % of the variability in temperature is explained by changes in depth. 
+73.87 % of the variability in temperature is explained by changes in depth. 
 This finding is based upon 9726 degrees of freedom. 
 This result is statistically significant, as the p value is 2e-16 which is
 less than 0.05. 
@@ -154,10 +154,14 @@ in July across the monitoring period at the North Temperate Lakes LTER.
 ```{r temperature.model}
 #9
 
+TPAIC <- lm(data = ChemPhysTempDepth, temperature_C ~ year4 + daynum + depth)
+#Choose a model by AIC in a Stepwise Algorithm
+step(TPAIC)
 
 
 #10
-
+TPmodel <- lm(data = ChemPhysTempDepth, temperature_C ~ year4 + daynum + depth)
+summary(TPmodel)
 
 ```
 
@@ -167,7 +171,11 @@ How much of the observed variance does this model explain? Is this an
 improvement over the model using only depth as the explanatory variable?
 
 > Answer: 
-
+The final set of explanatory variables that the AIC method 
+suggests we use to predict temperature in our multiple regression consists 
+of year4, daynum, and depth. This model explains 74.12% of the observed 
+variance, which is an improvement over the model using only depth as the 
+explanatory variable, as that R-squared was only 73.87. 
 
 
 ---
