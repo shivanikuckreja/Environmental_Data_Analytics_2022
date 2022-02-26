@@ -46,7 +46,6 @@ class(ChemPhysRawData$sampledate) #originally a factor
 # Change date to date object
 ChemPhysRawData$sampledate <- mdy(ChemPhysRawData$sampledate)
 
-
 #2
 mytheme <- theme_classic(base_size = 14) +
   theme(axis.text = element_text(color = "blue"), 
