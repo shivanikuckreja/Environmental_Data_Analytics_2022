@@ -1,9 +1,11 @@
 ---
-title: "Assignment 6: GLMs (Linear Regressios, ANOVA, & t-tests)"
+title: 'Assignment 6: GLMs (Linear Regressios, ANOVA, & t-tests)'
 author: "Shivani Kuckreja"
-output: pdf_document
+output:
+  pdf_document: default
+  word_document: default
 geometry: margin=2.54cm
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
