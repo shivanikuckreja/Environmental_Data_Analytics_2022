@@ -37,12 +37,13 @@ columns to date objects.
 
 ```{r setup}
 #1
-getwd()
-library(tidyverse)
+setwd("/home/guest/R/Environmental_Data_Analytics_2022")
+clelibrary(tidyverse)
 #install.packages("agricolae")
-library(agricolae)   
-ChemPhysRawData <- read.csv("./Data/Raw/NTL-LTER_Lake_ChemistryPhysics_Raw.csv", 
-         stringsAsFactors = TRUE)
+library(agricolae)
+ChemPhysRawData <- 
+  read.csv("./Data/Raw/NTL-LTER_Lake_ChemistryPhysics_Raw.csv", 
+           stringsAsFactors = TRUE)
 
 class(ChemPhysRawData$sampledate) #originally a factor
 # Change date to date object
@@ -50,8 +51,7 @@ ChemPhysRawData$sampledate <- mdy(ChemPhysRawData$sampledate)
 
 #2
 mytheme <- theme_classic(base_size = 14) +
-  theme(axis.text = element_text(color = "blue"), 
-legend.position = "top") #alternative: legend.position + legend.justification
+  theme(axis.text = element_text(color = "blue"), legend.position = "top") 
 
 theme_set(mytheme)
 
