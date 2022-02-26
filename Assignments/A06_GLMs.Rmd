@@ -38,7 +38,9 @@ columns to date objects.
 ```{r setup}
 #1
 setwd("/home/guest/R/Environmental_Data_Analytics_2022")
-clelibrary(tidyverse)
+library(tidyverse)
+#install.packages(lubridate)
+library(lubridate)
 #install.packages("agricolae")
 library(agricolae)
 ChemPhysRawData <- 
