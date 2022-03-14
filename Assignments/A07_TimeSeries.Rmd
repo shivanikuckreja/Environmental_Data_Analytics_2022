@@ -122,6 +122,9 @@ GaringerOzone$Date <- as.Date(GaringerOzone$Date, format = '%m/%d/%Y')
 #NOT WORKING 
 GaringerOzone_Wrangled <- select(GaringerOzone, Date, Daily.Max.8.hour.Ozone.Concentration, DAILY_AQI_VALUE)
 
+#alternative
+GaringerOzone_Wrangled <- GaringerOzone %>%
+  select(Date, Daily.Max.8.hour.Ozone.Concentration, DAILY_AQI_VALUE)
 
 # 5
 as.data.frame(seq())
