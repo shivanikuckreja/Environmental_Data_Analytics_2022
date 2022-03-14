@@ -35,15 +35,18 @@ The completed exercise is due on Monday, March 14 at 7:00 pm.
 ```{r}
 #1
 getwd()
+install.packages("tidyverse")
+install.packages("lubridate")
+install.packages("trend")
+install.packages("zoo")
+install.packages("Kendall")
+install.packages("tseries")
+
 library(tidyverse)
 library(lubridate)
-#install.packages("trend")
 library(trend)
-#install.packages("zoo")
 library(zoo)
-#install.packages("Kendall")
 library(Kendall)
-#install.packages("tseries")
 library(tseries)
 
 # Set theme
@@ -116,10 +119,12 @@ rows and 3 columns. Call your combined data frame GaringerOzone.
 GaringerOzone$Date <- as.Date(GaringerOzone$Date, format = '%m/%d/%Y')
 
 # 4
-GaringerOzone <- select(GaringerOzone, Date, Daily.Max.8.hour.Ozone.Concentration, DAILY_AQI_VALUE)
+#NOT WORKING 
+GaringerOzone_Wrangled <- select(GaringerOzone, Date, Daily.Max.8.hour.Ozone.Concentration, DAILY_AQI_VALUE)
+
 
 # 5
-
+as.data.frame(seq())
 
 
 # 6
