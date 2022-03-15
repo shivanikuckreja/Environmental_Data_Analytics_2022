@@ -119,19 +119,18 @@ rows and 3 columns. Call your combined data frame GaringerOzone.
 GaringerOzone$Date <- as.Date(GaringerOzone$Date, format = '%m/%d/%Y')
 
 # 4
-#NOT WORKING 
-GaringerOzone_Wrangled <- select(GaringerOzone, Date, Daily.Max.8.hour.Ozone.Concentration, DAILY_AQI_VALUE)
-
-#alternative
 GaringerOzone_Wrangled <- GaringerOzone %>%
   select(Date, Daily.Max.8.hour.Ozone.Concentration, DAILY_AQI_VALUE)
+summary(GaringerOzone_Wrangled)
+sum(is.na(GaringerOzone_Wrangled))
 
-# 5
-as.data.frame(seq())
+# 5 NEED HELP. Doesn't change anything from 4
+Days <- GaringerOzone_Wrangled %>%
+  as.data.frame(dates=seq(start=2010-01-01, end=2019-12-31)) 
+#Rename the column name in Days to "Date"??
 
-
-# 6
-
+# 6 # Should have final dimensions of 3652 rows and 3 columns
+GaringerOzone <- left_join(GaringerOzone_Wrangled, Days)
 ```
 
 ## Visualize
