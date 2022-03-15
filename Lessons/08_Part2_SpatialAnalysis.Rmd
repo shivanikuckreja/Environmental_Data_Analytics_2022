@@ -117,19 +117,21 @@ mapView(counties_sf, zcol = "AWATER")
 
 ```{r read HUCs shapefile}
 #Read the shapefile into an sf dataframe named "huc8_sf"
-
+huc8_sf <- st_read('./Data/Spatial/NCHUC8.shp')
 
 #Reveal the columns
-
+names(huc8_sf)
 
 #Check the CRS
-
+st_crs(huc8_sf)
 
 #Examine some records
-
+head(huc8_sf)
 
 #View the data as a map, colored by the acreage in each
-
+ggplot(data=huc8_sf)+
+geom_sf(aes(fill=ACRES)) +
+scale_fill_continuous(type='viridis')
 
 ```
 
@@ -139,11 +141,14 @@ mapView(counties_sf, zcol = "AWATER")
 
 ```{r Select the Upper Neuse HUC 8}
 #Read the shapefile into an sf dataframe
-
+huc8_sf.subset <- st_read('./Data/Spatial/NCHUC8.shp') %>%
+  filter(SUBBASIN="Upper Neuse")
 
 
 #Create a map
-
+ggplot()+
+  geom_sf(data=huc8_sf, fill='orange')
+  geom_sf(data=huc8_sf.subset, fill='purple')
 
 ```
 
@@ -239,17 +244,26 @@ ggplot() +
 
 ```{r}
 #Compute HUC8 wind energy
-
-
+#Read the 2018 SVI county-level dataset for NC
+wind_raw <- read.csv(
+  'https://raw.githubusercontent.com/ENV859/EnviroAtlasData/main/Wind_Energy.csv',
+  colClasses = c('HUC_12' = 'factor')) %>%
+  mutate(HUC_8 = substr(HUC_12,1,8)) %>%
+  group_by(HUC-8) %>%
+  summarize(SumWindEnergy = sum(AvgWindEnergy))
 
 
 #Join to HUC_8 features
-
+huc8_sf_join = merge(x = huc8_sf, 
+                     y=wind_raw, 
+                     by.x. = 'HUC_8', 
+                     by.y. = 'HUC_8') 
 
 
 
 #View the outputs
-
+ggplot(data=huc8_sf_join)+
+  geom_sf()
 
 
 ```
@@ -364,16 +378,24 @@ mapview(neuse_counties_sf, zcol='Area_m2')
 
 ```{r EXERCISE: Clipping}
 #Select the Triangle County from the 
-
+triangle_co <- counties_sf_utm %>%
+  filter(NAME %in% c('Chatham', 'Durham', 'Orange', 'Wake'))
 
 
   
 #Grab the intersecting HUC_8s
 
+triangle_HUCs <- huc8_sf_utm[triangle_co,]
+
+ggplot()+
+  geom_sf(data = triangle_co, color='grey')+
+    geom_sf(data = huc_sf_utm, color='green', fill=NA)+  geom_sf(data = triangle_HUCs, color='blue', fill=NA)
 
 
 #Intersect the HUC_8s
-
+triangle_HUCs.clipped <- triangle_co %>%
+  st_intersection(huc8_sf_utm)
+mapview(triangle_HUCs.clipped)
 
 
 
