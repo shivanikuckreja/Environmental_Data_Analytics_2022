@@ -142,7 +142,11 @@ your plot suggest a trend in ozone concentration over time?
 
 ```{r}
 #7
+summary(GaringerOzone$Daily.Max.8.hour.Ozone.Concentration)
 
+ggplot(GaringerOzone, aes(x=Date, y = Daily.Max.8.hour.Ozone.Concentration)) + 
+   geom_line() +
+ geom_smooth(method = "lm")
 ```
 
 >Answer: 
@@ -157,7 +161,9 @@ concentration. Why didn't we use a piecewise constant or spline interpolation?
 
 ```{r}
 #8
-
+summary(GaringerOzone)
+GaringerOzone_MissingDaily <- GaringerOzone %>%
+  mutate(Ozone = zoo:na.approx(Ozone))
 ```
 
 > Answer:  
@@ -172,6 +178,14 @@ combination being set as the first day of the month
 
 ```{r}
 #9
+GaringerOzone.monthly <- 
+  GaringerOzone_MissingDaily %>% # is this the right dataframe? 
+  mutate(Month=month(Date)), 
+Year=year(Date) %>%
+  mutate (Date=my(paste0(Month, "-", Year))) %>%
+  dplyr::group_by(Date, Month, Year) %>%
+  dplyr::summarize(mean_Ozone=mean(Daily.Max.8.hour.Ozone.Concentration)) %>%
+  select(mean_Ozone, Date)
 
 ```
 
@@ -184,7 +198,13 @@ of the time series.
 
 ```{r}
 #10
+GaringerOzone.daily.ts <- 
+  ts(GaringerOzone.clean$Daily.Max.8.hour.Ozone.Concentration, #clean
+     start=c(2010-01-01), end=(2019-12-31), frequency=365)
 
+GaringerOzone.monthly.ts <-
+  ts(GaringerOzone.clean$mean_Ozone, #clean
+     start=c(2010-01-01), end=(2019-12-31), frequency=12)
 
 ```
 
@@ -194,7 +214,9 @@ components using the `plot()` function.
 
 ```{r}
 #11
+DailyDecomposed <-
 
+MonthlyDecomposed <-
 
 ```
 
