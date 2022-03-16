@@ -41,6 +41,7 @@ install.packages("trend")
 install.packages("zoo")
 install.packages("Kendall")
 install.packages("tseries")
+install.packages("contrib.url")
 
 library(tidyverse)
 library(lubridate)
