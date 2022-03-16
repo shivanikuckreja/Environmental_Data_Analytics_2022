@@ -124,10 +124,13 @@ GaringerOzone_Wrangled <- GaringerOzone %>%
 summary(GaringerOzone_Wrangled)
 sum(is.na(GaringerOzone_Wrangled))
 
-# 5 NEED HELP. Doesn't change anything from 4
-Days <- GaringerOzone_Wrangled %>%
-  as.data.frame(dates=seq(start=2010-01-01, end=2019-12-31)) 
-#Rename the column name in Days to "Date"??
+# 5 
+Days <-
+#<- GaringerOzone %>%
+  as.data.frame(seq.Date(as.Date("2010-01-01", as.Date("2019-12-31"), "day") 
+  #select(Date, Daily.Max.8.hour.Ozone.Concentration, DAILY_AQI_VALUE)
+#summary(Days)
+#sum(is.na(Days))
 
 # 6 # Should have final dimensions of 3652 rows and 3 columns
 GaringerOzone <- left_join(GaringerOzone_Wrangled, Days)
@@ -267,9 +270,17 @@ on the complete series.
 
 ```{r}
 #15
+GaringerOzone_Monthly_NonSeasonal<-
+as.data.frame(Mean_Monthly_Ozone$time.series[,1:3])
 
+GaringerOzone_Monthly_NonSeasonal <-
+  mutate(GaringerOzone_Monthly_NonSeasonal, 
+         Observed = GaringerOzone.monthly$mean_Ozone,
+           Date = GaringerOzone.monthly$Date)
 
 #16
+GaringerOzone_Monthly_Trend3 <- Kendall::MannKendall(GaringerOzone.monthly.ts)
+summary(GaringerOzone_Monthly_Trend3)
 
 ```
 
