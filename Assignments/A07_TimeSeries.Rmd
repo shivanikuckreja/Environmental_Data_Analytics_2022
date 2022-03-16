@@ -120,20 +120,19 @@ GaringerOzone$Date <- as.Date(GaringerOzone$Date, format = '%m/%d/%Y')
 
 # 4
 GaringerOzone_Wrangled <- GaringerOzone %>%
-  select(Date, Daily.Max.8.hour.Ozone.Concentration, DAILY_AQI_VALUE)
-summary(GaringerOzone_Wrangled)
+  select(Date, Daily.Max.8.hour.Ozone.Concentration, DAILY_AQI_VALUE) 
+summary(GaringerOzone_Wrangled) 
 sum(is.na(GaringerOzone_Wrangled))
 
-# 5 
-Days <-
-#<- GaringerOzone %>%
-  as.data.frame(seq.Date(as.Date("2010-01-01", as.Date("2019-12-31"), "day") 
-  #select(Date, Daily.Max.8.hour.Ozone.Concentration, DAILY_AQI_VALUE)
-#summary(Days)
-#sum(is.na(Days))
 
-# 6 # Should have final dimensions of 3652 rows and 3 columns
-GaringerOzone <- left_join(GaringerOzone_Wrangled, Days)
+
+# 5 
+Days <- as.data.frame(seq.Date(as.Date("2010-01-01"), as.Date("2019-12-31"), 
+                               by="day"))
+colnames(Days) <- "Date"
+
+# 6 
+GaringerOzone <- left_join(Days, GaringerOzone_Wrangled)
 ```
 
 ## Visualize
@@ -166,7 +165,7 @@ concentration. Why didn't we use a piecewise constant or spline interpolation?
 #8
 summary(GaringerOzone)
 GaringerOzone_MissingDaily <- GaringerOzone %>%
-  mutate(Ozone = zoo:na.approx(Ozone))
+  mutate(Ozone = zoo::na.approx(Daily.Max.8.hour.Ozone.Concentration))
 ```
 
 > Answer:  
@@ -182,9 +181,9 @@ combination being set as the first day of the month
 ```{r}
 #9
 GaringerOzone.monthly <- 
-  GaringerOzone_MissingDaily %>% # is this the right dataframe? 
-  mutate(Month=month(Date)), 
-Year=year(Date) %>%
+  GaringerOzone_MissingDaily %>% 
+  mutate(Month=month(Date), 
+  Year=year(Date)) %>%
   mutate (Date=my(paste0(Month, "-", Year))) %>%
   dplyr::group_by(Date, Month, Year) %>%
   dplyr::summarize(mean_Ozone=mean(Daily.Max.8.hour.Ozone.Concentration)) %>%
@@ -247,8 +246,8 @@ both a geom_point and a geom_line layer. Edit your axis labels accordingly.
 Mean_Monthly_Ozone <- 
   ggplot(GaringerOzone, aes(x=Date, y=mean_Ozone)) +
   geom_point()+
-  geom_line+
-  geom_smooth((method = "lm")
+  geom_line()+
+  geom_smooth(method = lm)
 print(Mean_Monthly_Ozone)
 
 
