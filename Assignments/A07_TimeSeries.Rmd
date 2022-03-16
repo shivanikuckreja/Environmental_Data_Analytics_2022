@@ -151,7 +151,8 @@ ggplot(GaringerOzone, aes(x=Date, y = Daily.Max.8.hour.Ozone.Concentration)) +
  geom_smooth(method = "lm")
 ```
 
->Answer: 
+>Answer: Yes, the plot does suggest a cyclical trend and 
+slightly donward-facing trend in ozone concentration overtime. 
 
 ## Time Series Analysis
 
@@ -168,7 +169,7 @@ GaringerOzone_MissingDaily <- GaringerOzone %>%
   mutate(Ozone = zoo::na.approx(Daily.Max.8.hour.Ozone.Concentration))
 ```
 
-> Answer:  
+> Answer: We used linear interpolation because  the data pattern is known.   
 
 
 9. Create a new data frame called `GaringerOzone.monthly` that contains 
@@ -199,14 +200,13 @@ Be sure that each specifies the correct start and end dates and the frequency
 of the time series.
 
 ```{r}
-#10
+#10 #my 9 is running fine but the rest of my code is not, and I'm not sure why
 GaringerOzone.daily.ts <- 
-  ts(GaringerOzone.clean$Daily.Max.8.hour.Ozone.Concentration, #clean
-     start=c(2010-01-01), end=(2019-12-31), frequency=365)
+  ts(GaringerOzone$Daily.Max.8.hour.Ozone.Concentration,
+   frequency=365)
 
 GaringerOzone.monthly.ts <-
-  ts(GaringerOzone.clean$mean_Ozone, #clean
-     start=c(2010-01-01), end=(2019-12-31), frequency=12)
+ ts(GaringerOzone$mean_Ozone, start=c(2010,1), frequency=12
 
 ```
 
@@ -216,7 +216,7 @@ components using the `plot()` function.
 
 ```{r}
 #11
-DailyDecomposed <-stl(GaringerOzone.daily.ts, s.window = "periodic")
+DailyDecomposed <- stl(GaringerOzone.daily.ts, s.window = "periodic")
 plot(DailyDecomposed)
 
 MonthlyDecomposed <- stl(GaringerOzone.monthly.ts, s.window = "periodic")
@@ -230,7 +230,8 @@ the seasonal Mann-Kendall is most appropriate; why is this?
 
 ```{r}
 #12
-GaringerOzone_Monthly_Trend1 <- Kendall::SeasonalMannKendall(GaringerOzone.monthly.ts)
+GaringerOzone_Monthly_Trend1 <- 
+  Kendall::SeasonalMannKendall(GaringerOzone.monthly.ts)
 summary(GaringerOzone_Monthly_Trend1)
 
 
@@ -248,7 +249,7 @@ Mean_Monthly_Ozone <-
   geom_point()+
   geom_line()+
   geom_smooth(method = lm)
-print(Mean_Monthly_Ozone)
+    print(Mean_Monthly_Ozone)
 
 
 ```
@@ -257,7 +258,7 @@ print(Mean_Monthly_Ozone)
 question. Include output from the statistical test in parentheses at the end 
 of your sentence. Feel free to use multiple sentences in your interpretation.
 
-> Answer: 
+> Answer: Code not running
 
 15. Subtract the seasonal component from the `GaringerOzone.monthly.ts`. Hint: 
 Look at how we extracted the series components for the EnoDischarge on the 
@@ -283,4 +284,4 @@ summary(GaringerOzone_Monthly_Trend3)
 
 ```
 
-> Answer: 
+> Answer: Code not running
