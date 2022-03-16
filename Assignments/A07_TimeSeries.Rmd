@@ -214,9 +214,11 @@ components using the `plot()` function.
 
 ```{r}
 #11
-DailyDecomposed <-
+DailyDecomposed <-stl(GaringerOzone.daily.ts, s.window = "periodic")
+plot(DailyDecomposed)
 
-MonthlyDecomposed <-
+MonthlyDecomposed <- stl(GaringerOzone.monthly.ts, s.window = "periodic")
+plot(MonthlyDecomposed)
 
 ```
 
@@ -226,19 +228,25 @@ the seasonal Mann-Kendall is most appropriate; why is this?
 
 ```{r}
 #12
-
+GaringerOzone_Monthly_Trend1 <- Kendall::SeasonalMannKendall(GaringerOzone.monthly.ts)
+summary(GaringerOzone_Monthly_Trend1)
 
 
 ```
 
-> Answer:  
+> Answer: In this case, the Seasonal Mann-Kendallis most appropriate because the stl function determined that we have seasonal data.  
 
 13. Create a plot depicting mean monthly ozone concentrations over time, with 
 both a geom_point and a geom_line layer. Edit your axis labels accordingly.
 
 ```{r}
 # 13
-
+Mean_Monthly_Ozone <- 
+  ggplot(GaringerOzone, aes(x=Date, y=mean_Ozone)) +
+  geom_point()+
+  geom_line+
+  geom_smooth((method = "lm")
+print(Mean_Monthly_Ozone)
 
 
 ```
@@ -259,6 +267,7 @@ on the complete series.
 
 ```{r}
 #15
+
 
 #16
 
