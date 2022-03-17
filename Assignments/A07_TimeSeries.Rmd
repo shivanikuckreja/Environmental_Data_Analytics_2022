@@ -68,7 +68,6 @@ and 20 variables.
 
 ```{r, message = FALSE}
 #2
-#Import 10 datasets using the read.csv function
 
 EPAair2010 <- read.csv("./Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2010_raw.csv", stringsAsFactors = TRUE)
 
