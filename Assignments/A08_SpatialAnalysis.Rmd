@@ -176,11 +176,10 @@ is created.
 
 ggplot() +
   geom_sf(data = counties_nebraska,color='blue') + 
-  geom_sf(data = NWIS_NE_sf,color='red')
-
-
-
-
+  geom_sf(data = NWIS_NE_sf,color='red') +
+  labs(
+  title='NWIS Gage Locations in Nebraska', 
+  subtitle='Shivani Kuckreja')
 
 ```
 
