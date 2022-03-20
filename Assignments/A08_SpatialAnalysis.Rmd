@@ -251,14 +251,15 @@ gage heights spatially.
 visualization technique.
 
 ```{r}
-#Map the points, sized by gage height
 
-ggplot() +
-  geom_sf(data = counties_nebraska,color='blue') + 
-  geom_sf(data = NWIS_NE_sf,color='red') +
+# 19. Map the points, sized by gage height
 
 
-
+#View with mapview
+mapview(Joineddata, 
+        cex = 'gage_ht', color = 'yellow') +
+mapview(counties_nebraska, color = 'pink')
+ 
 ```
 
 ---
@@ -279,8 +280,14 @@ different colors
 ```{r}
 #20 Transform the counties and gage location datasets to UTM Zone 14
 
+Counties_UTM <-     st_transform(counties_nebraska, crs = 32614)
+NWIS_NE_UTM <-      st_transform(NWIS_NE_sf, crs = 32614)
+
 
 #21 Plot the data
+
+mapview(Counties_UTM) +
+mapview (NWIS_NE_UTM)
 
 
 ```
@@ -300,7 +307,14 @@ Now let's zoom into a particular county and examine the gages located there.
 ```{r}
 #22 Select the county
 
-
+Lancaster <- Counties_UTM %>% 
+  filter(Name == Lancaster)
+  
+  
+  GaringerOzone_Wrangled <- GaringerOzone %>%
+select(Date, Daily.Max.8.hour.Ozone.Concentration, DAILY_AQI_VALUE)
+summary(GaringerOzone_Wrangled)
+  
 #23 Select gages within the selected county
 
 
