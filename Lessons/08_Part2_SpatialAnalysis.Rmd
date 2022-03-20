@@ -133,6 +133,8 @@ ggplot(data=huc8_sf)+
 geom_sf(aes(fill=ACRES)) +
 scale_fill_continuous(type='viridis')
 
+
+
 ```
 
 ### 2.2.3 Challenge!

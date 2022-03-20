@@ -86,6 +86,9 @@ st_crs(counties_nebraska)$epsg
 
 mapview(counties_nebraska)
 
+
+
+st_transform(counties_nebraska, crs = 4269)
 ```
 
 6. What is the EPSG code of the Counties dataset? Is this a geographic 
@@ -204,15 +207,27 @@ titled `NWIS_SiteFlowData_NE_RAW.csv` and is found in the Data/Raw folder.
 ```{r}
 #14. Read the site flow data into a data frame
 
+NWIS_SiteFlow <- read.csv("./Data/Raw/NWIS_SiteFlowData_NE_RAW.csv", 
+                   stringsAsFactors = TRUE)
 
 #15. Show the column names
 
+colnames(NWIS_SiteFlow)
+
+#Column names listed below:
+#[1] "site_no"    "station_nm" "date"       "gage_ht"
 
 #16. Join location data to it
+
+#Tidyverse version of the join
+Joineddata <- NWIS_SiteFlow %>% 
+#left_join(NWIS_NE_sf, by = c("GEOID" = "FIPS") ) +
+left_join(counties_nebraska, by = c("GEOID" = "FIPS") )
 
 
 #17. Show the column names of the joined dataset
 
+colnames(Joineddata)
 
 #18. Show the dimensions of this joined dataset
 
@@ -225,7 +240,8 @@ Now we can examine where the flooding appears most acute by visualizing
 gage heights spatially.
 19. Plot the gage sites on top of counties 
 (using `mapview`, `ggplot`, or `leaflet`) 
-* Show the magnitude of gage height by color, shape, other visualization technique.
+* Show the magnitude of gage height by color, shape, other 
+visualization technique.
 
 ```{r}
 #Map the points, sized by gage height
