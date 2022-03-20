@@ -1,5 +1,5 @@
 ---
-title: 'Assignment 9: Spatial Analysis in R'
+title: 'Assignment 8: Spatial Analysis in R'
 author: "Shivani Kuckreja"
 output:
   html_document:
