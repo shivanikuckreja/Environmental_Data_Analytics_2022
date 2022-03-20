@@ -96,7 +96,7 @@ or a projected coordinate reference system? (Or, does this CRS use angular
 or planar coordinate units?) To what datum is this CRS associated? 
 (Tip: look the EPSG code on <https://spatialreference.org>) 
 
-> ANSWER: EPSG = 32104. 
+> ANSWER: EPSG = 32104.This is a projected coordinate reference system. This CRS is associated with the North American Datum of 1983. 
 > 
 
 
@@ -219,19 +219,26 @@ colnames(NWIS_SiteFlow)
 
 #16. Join location data to it
 
-#Tidyverse version of the join
-Joineddata <- NWIS_SiteFlow %>% 
-#left_join(NWIS_NE_sf, by = c("GEOID" = "FIPS") ) +
-left_join(counties_nebraska, by = c("GEOID" = "FIPS") )
+Joineddata <-  merge(x = NWIS_NE_sf ,
+  y = NWIS_SiteFlow, 
+  by.x = "site_no", 
+  by.y = "site_no")
 
 
 #17. Show the column names of the joined dataset
 
 colnames(Joineddata)
 
+#Column names listed below:
+#[1] "site_no"            "station_nm.x"       "site_tp_cd"         "coord_acy_cd"      
+#[5] "dec_coord_datum_cd" "station_nm.y"       "date"               "gage_ht"           
+#[9] "geometry" 
+
 #18. Show the dimensions of this joined dataset
 
+dim(Joineddata)
 
+# 136 and 9
 ```
 
 ### Map the pattern of gage height data
@@ -246,8 +253,10 @@ visualization technique.
 ```{r}
 #Map the points, sized by gage height
 
+ggplot() +
+  geom_sf(data = counties_nebraska,color='blue') + 
+  geom_sf(data = NWIS_NE_sf,color='red') +
 
-#ggplot
 
 
 ```
