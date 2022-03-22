@@ -94,7 +94,10 @@ With this id known, we can extract it's value in a two-step process. First we us
 
 ```{r scrape.some.data}
 the_registrant <- webpage %>% 
-  html_nodes(".table tr:nth-child(1) td:nth-child(2)") %>% 
+  html_nodes(".table tr:nth-child(1) td:nth-child(2)") %>% #grabs value associated with these tags
+  #first pull whole webpage into coding environment using read.html
+  #then identify tags (html nodes) 
+  #then html text 
   html_text()
 the_registrant
 ```
