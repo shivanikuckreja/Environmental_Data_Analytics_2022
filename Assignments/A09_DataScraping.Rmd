@@ -1,6 +1,6 @@
 ---
 title: "Assignment 09: Data Scraping"
-author: "Student Name"
+author: "Shivani Kuckreja"
 output: pdf_document
 geometry: margin=2.54cm
 editor_options: 
@@ -30,13 +30,24 @@ This exercise accompanies the lessons in Environmental Data Analytics on data sc
 
 ```{r, message = FALSE}
 #1
+getwd()
+library(tidyverse)
+library(lubridate)
 
+#install.packages("rvest")
+library(rvest)
+
+# Set theme
+mytheme <- theme_classic() +
+  theme(axis.text = element_text(color = "blue"), 
+        legend.position = "top")
+theme_set(mytheme)
 
 ```
 
 2. We will be scraping data from the NC DEQs Local Water Supply Planning website, specifically the Durham's 2019 Municipal Local Water Supply Plan (LWSP): 
  * Navigate to https://www.ncwater.org/WUDC/app/LWSP/search.php
- * Change the date from 2020 to 2019 in the upper right corner.
+ * Change the date from 2021 to 2020 in the upper right corner.
  * Scroll down and select the LWSP link next to Durham Municipality. 
  * Note the web address: <https://www.ncwater.org/WUDC/app/LWSP/report.php?pwsid=03-32-010&year=2020>
 
@@ -57,7 +68,7 @@ Indicate this website as the as the URL to be scraped. (In other words, read the
  * Ownership
  
 * From the "3. Water Supply Sources" section:
- * Average Daily Use (MGD) - for each month
+ * Average [ change to maximum??] Daily Use (MGD) - for each month
 
 In the code chunk below scrape these values, assigning them to three separate variables.
 
