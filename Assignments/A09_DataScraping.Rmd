@@ -162,8 +162,9 @@ scrape.it <- function(pwsid){
   #Get the proper url
   the_url <- ifelse(pwsid==,
    'https://www.ncwater.org/WUDC/app/LWSP/report.php?pwsid=03-32-010&year=2020',
-                gsub('', the_year,'https://www.eia.gov/electricity/state/archive/',the_year,'/'))
-
+                gsub('', year,'',year,'/'))
+                gsub('', pwsid,'',pwsid,'/'))
+# Another ifelse statement for year? 
 
 ```
 
