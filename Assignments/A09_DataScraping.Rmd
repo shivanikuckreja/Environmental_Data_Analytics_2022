@@ -11,14 +11,19 @@ editor_options:
 
 ## OVERVIEW
 
-This exercise accompanies the lessons in Environmental Data Analytics on data scraping. 
+This exercise accompanies the lessons in Environmental Data Analytics on 
+data scraping. 
 
 ## Directions
 1. Change "Student Name" on line 3 (above) with your name.
-2. Work through the steps, **creating code and output** that fulfill each instruction.
+2. Work through the steps, **creating code and output** that fulfill each 
+instruction.
 3. Be sure to **answer the questions** in this assignment document.
-4. When you have completed the assignment, **Knit** the text and code into a single PDF file.
-5. After Knitting, submit the completed exercise (PDF file) to the dropbox in Sakai. Add your last name into the file name (e.g., "Fay_09_Data_Scraping.Rmd") prior to submission.
+4. When you have completed the assignment, **Knit** the text and code into a 
+single PDF file.
+5. After Knitting, submit the completed exercise (PDF file) to the dropbox in 
+Sakai. Add your last name into the file name (e.g., "Fay_09_Data_Scraping.Rmd") 
+prior to submission.
 
 
 ## Set up 
@@ -60,7 +65,7 @@ Indicate this website as the as the URL to be scraped.
 #2
 #Fetch the web resources from the URL
 webpage <- 
-  read_html('https://www.ncwater.org/WUDC/app/LWSP/report.php?pwsid=03-32-010&year=2020')
+read_html('https://www.ncwater.org/WUDC/app/LWSP/report.php?pwsid=03-32-010&year=2020')
 webpage
 
 ```
@@ -69,7 +74,7 @@ webpage
 
 * From the "1. System Information" section:
  * Water system name
- * PSWID
+ * PWSID
  * Ownership
  
 * From the "3. Water Supply Sources" section:
@@ -84,9 +89,12 @@ the first value being 36.0100.
 
 ```{r scrape.the.data}
 #3
-water.system.name <- webpage %>% html_nodes("div+ table tr:nth-child(1) td:nth-child(2)") %>% html_text()
-pswid <- webpage %>% html_nodes("td tr:nth-child(1) td:nth-child(5)") %>% html_text()
-ownership <- webpage %>% html_nodes("div+ table tr:nth-child(2) td:nth-child(4)") %>% html_text()
+water.system.name <- webpage %>% 
+  html_nodes("div+ table tr:nth-child(1) td:nth-child(2)") %>% html_text()
+pwsid <- webpage %>% 
+  html_nodes("td tr:nth-child(1) td:nth-child(5)") %>% html_text()
+ownership <- webpage %>% 
+  html_nodes("div+ table tr:nth-child(2) td:nth-child(4)") %>% html_text()
 max.withdrawals.mgd <- webpage %>% html_nodes("th~ td+ td") %>% html_text()
 
 ```
@@ -100,35 +108,61 @@ column too, if you wish.)
 
 >TIP: Use `rep()` to repeat a value when creating a dataframe.
 
->NOTE: It's likely you won't be able to scrape the monthly widthrawal data in order. You can overcome this by creating a month column in the same order the data are scraped: Jan, May, Sept, Feb, etc...
+>NOTE: It's likely you won't be able to scrape the monthly widthrawal data 
+in order. You can overcome this by creating a month column in the same order 
+the data are scraped: Jan, May, Sept, Feb, etc...
 
 5. Plot the max daily withdrawals across the months for 2020
 
 ```{r create.a.dataframe.from.scraped.data}
 #4
-Max.withdrawals.monthly <- webpage %>% 
+Month <- webpage %>% 
   html_nodes(".fancy-table:nth-child(31) tr+ tr th") %>% html_text()
+
+
+#Trial & Error to Insert Date Column
+#Month.Year.Date  <- 
+ # Max.withdrawals.monthly %>% 
+  #Year=year(Date) %>%
+ # mutate (Date=my(paste0(Month, Year))) %>%
+ # dplyr::group_by(Month, Year) 
+
+
 
 the_df <- data.frame(
 "Water System Name" = water.system.name,
-"PSWID" = pswid,
+"PWSID" = pwsid,
 "Ownership" = ownership,
 "Maximum Daily Use (MGD)" = max.withdrawals.mgd, 
-"Max.withdrawals.monthly" = Max.withdrawals.monthly
+"Month" = Month, 
+#"Date" = my(paste(Month,"-",Year)
 )
 
 
 #5
-
-
+#Plot 
+ggplot(the_df, aes(x=Month,y=max.withdrawals.mgd)) + #use date column as X once we set that column
+  geom_point() + 
+  geom_smooth(method="loess",se=FALSE) +
+  labs(title = paste("Max Daily Withdrawals Across the Months"),
+       subtitle = 2020,
+       y="Max Withdrawal(mgd)",
+       x="Month")
 
 ```
 
-6. Note that the PWSID and the year appear in the web address for the page we scraped. Construct a function using your code above that can scrape data for any PWSID and year for which the NC DEQ has data. **Be sure to modify the code to reflect the year and site scraped**.
+6. Note that the PWSID and the year appear in the web address for 
+the page we scraped. Construct a function using your code above that 
+can scrape data for any PWSID and year for which the NC DEQ has data. 
+**Be sure to modify the code to reflect the year and site scraped**.
 
 ```{r construct.a.scraping.function}
 #6.
-
+scrape.it <- function(pwsid){
+  #Get the proper url
+  the_url <- ifelse(pwsid==,
+   'https://www.ncwater.org/WUDC/app/LWSP/report.php?pwsid=03-32-010&year=2020',
+                gsub('', the_year,'https://www.eia.gov/electricity/state/archive/',the_year,'/'))
 
 
 ```
@@ -137,11 +171,13 @@ the_df <- data.frame(
 
 ```{r fetch.and.plot.Durham.2015.data}
 #7
-
+#Similar to 5 except use function
 
 ```
 
-8. Use the function above to extract data for Asheville (PWSID = 01-11-010) in 2015. Combine this data with the Durham data collected above and create a plot that compares the Asheville to Durham's water withdrawals.
+8. Use the function above to extract data for Asheville (PWSID = 01-11-010) 
+in 2015. Combine this data with the Durham data collected above and create a 
+plot that compares the Asheville to Durham's water withdrawals.
 
 ```{r fetch.and.plot.Durham.2015.data}
 #8
@@ -150,7 +186,8 @@ the_df <- data.frame(
 ```
 
 
-9. Use the code & function you created above to plot Asheville's max daily withdrawal by months for the years 2010 thru 2019.Add a smoothed line to the plot.
+9. Use the code & function you created above to plot Asheville's max daily 
+withdrawal by months for the years 2010 thru 2020.Add a smoothed line to the plot.
 
 ```{r}
 #9
@@ -158,4 +195,5 @@ the_df <- data.frame(
 
 ```
 
->Question: Just by looking at the plot (i.e. not running statistics), does Asheville have a trend in water usage over time?
+>Question: Just by looking at the plot (i.e. not running statistics), 
+does Asheville have a trend in water usage over time?
