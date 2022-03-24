@@ -119,15 +119,7 @@ the data are scraped: Jan, May, Sept, Feb, etc...
 Month <- webpage %>% 
   html_nodes(".fancy-table:nth-child(31) tr+ tr th") %>% html_text()
 
-
-#Trial & Error to Insert Date Column
-#Month.Year.Date  <- 
- # Max.withdrawals.monthly %>% 
-  #Year=year(Date) %>%
- # mutate (Date=my(paste0(Month, Year))) %>%
- # dplyr::group_by(Month, Year) 
-
-
+Year <- 2020
 
 the_df <- data.frame(
 "Water System Name" = water.system.name,
@@ -135,19 +127,22 @@ the_df <- data.frame(
 "Ownership" = ownership,
 "Maximum Daily Use (MGD)" = max.withdrawals.mgd, 
 "Month" = Month, 
-#"Date" = my(paste(Month,"-",Year)
-)
+"Year" = Year,
+"Date" = my(paste(Month,"-",Year)
+))
 
 
 #5
 #Plot 
-ggplot(the_df, aes(x=Month,y=max.withdrawals.mgd)) + #use date column as X once we set that column
+ggplot(the_df, aes(x=Date,y=max.withdrawals.mgd)) + 
   geom_point() + 
-  geom_smooth(method="loess",se=FALSE) +
   labs(title = paste("Max Daily Withdrawals Across the Months"),
        subtitle = 2020,
-       y="Max Withdrawal(mgd)",
-       x="Month")
+       y="Max Withdrawal (mgd)",
+       x="Date")
+# Only labels certain months on the graph. Can google how to label each month.
+#scale_x_date(date_labels="%b %y",date_breaks  ="1 month") is not working
+# geom_line not showing up which is why I am using geom_point
 
 ```
 
@@ -157,10 +152,10 @@ can scrape data for any PWSID and year for which the NC DEQ has data.
 **Be sure to modify the code to reflect the year and site scraped**.
 
 ```{r construct.a.scraping.function}
-#6.
+#6.# In lesson 
 scrape.it <- function(pwsid){
   #Get the proper url
-  the_url <- ifelse(pwsid==,
+  the_url <- 
    'https://www.ncwater.org/WUDC/app/LWSP/report.php?pwsid=03-32-010&year=2020',
                 gsub('', year,'',year,'/'))
                 gsub('', pwsid,'',pwsid,'/'))
