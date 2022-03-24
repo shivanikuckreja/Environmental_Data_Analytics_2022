@@ -49,14 +49,19 @@ theme_set(mytheme)
  * Navigate to https://www.ncwater.org/WUDC/app/LWSP/search.php
  * Change the date from 2021 to 2020 in the upper right corner.
  * Scroll down and select the LWSP link next to Durham Municipality. 
- * Note the web address: <https://www.ncwater.org/WUDC/app/LWSP/report.php?pwsid=03-32-010&year=2020>
+ * Note the web address: 
+ <https://www.ncwater.org/WUDC/app/LWSP/report.php?pwsid=03-32-010&year=2020>
 
-Indicate this website as the as the URL to be scraped. (In other words, read the contents into an
+Indicate this website as the as the URL to be scraped. 
+(In other words, read the contents into an
 `rvest` webpage object.)
 
 ```{r set.the.scraping.website}
 #2
-
+#Fetch the web resources from the URL
+webpage <- 
+  read_html('https://www.ncwater.org/WUDC/app/LWSP/report.php?pwsid=03-32-010&year=2020')
+webpage
 
 ```
 
@@ -68,23 +73,30 @@ Indicate this website as the as the URL to be scraped. (In other words, read the
  * Ownership
  
 * From the "3. Water Supply Sources" section:
- * Average [ change to maximum??] Daily Use (MGD) - for each month
+ * Maximum Daily Use (MGD) - for each month
 
-In the code chunk below scrape these values, assigning them to three separate variables.
+In the code chunk below scrape these values, assigning them to four 
+separate variables.
 
->HINT: The first value should be "Durham", the second "03-32-010", the third "Municipality", and the last should be a vector of 12 numeric values, with the first value being 36.0100.
+>HINT: The first value should be "Durham", the second "03-32-010", the third 
+"Municipality", and the last should be a vector of 12 numeric values, with 
+the first value being 36.0100.
 
 ```{r scrape.the.data}
 #3
-water.system.name <- 
-pswid <- 
-ownership <- 
-max.withdrawals.mgd <- 
+water.system.name <- webpage %>% html_nodes("div+ table tr:nth-child(1) td:nth-child(2)") %>% html_text()
+pswid <- webpage %>% html_nodes("td tr:nth-child(1) td:nth-child(5)") %>% html_text()
+ownership <- webpage %>% html_nodes("div+ table tr:nth-child(2) td:nth-child(4)") %>% html_text()
+max.withdrawals.mgd <- webpage %>% html_nodes("th~ td+ td") %>% html_text()
 
 ```
 
 
-4. Convert your scraped data into a dataframe. This dataframe should have a column for each of the 4 variables scraped and a row for the month corresponding to the withdrawal data. Also add a Date column that includes your month and year in data format. (Feel free to add a Year column too, if you wish.)
+4. Convert your scraped data into a dataframe. This dataframe should have 
+a column for each of the 4 variables scraped and a row for the month 
+corresponding to the withdrawal data. Also add a Date column that 
+includes your month and year in data format. (Feel free to add a Year 
+column too, if you wish.)
 
 >TIP: Use `rep()` to repeat a value when creating a dataframe.
 
@@ -94,7 +106,16 @@ max.withdrawals.mgd <-
 
 ```{r create.a.dataframe.from.scraped.data}
 #4
+Max.withdrawals.monthly <- webpage %>% 
+  html_nodes(".fancy-table:nth-child(31) tr+ tr th") %>% html_text()
 
+the_df <- data.frame(
+"Water System Name" = water.system.name,
+"PSWID" = pswid,
+"Ownership" = ownership,
+"Maximum Daily Use (MGD)" = max.withdrawals.mgd, 
+"Max.withdrawals.monthly" = Max.withdrawals.monthly
+)
 
 
 #5
