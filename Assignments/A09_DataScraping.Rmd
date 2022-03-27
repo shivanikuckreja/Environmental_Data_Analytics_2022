@@ -155,18 +155,19 @@ can scrape data for any PWSID and year for which the NC DEQ has data.
 ```{r construct.a.scraping.function}
 #6. 
 scrape.it <- function(Year, PWSID){
-  the_url <- read_html(paste0('https://www.ncwater.org/WUDC/app/LWSP/report.php?pwsid=',
-                    PWSID, '&year=',Year))
+  the_url <- 
+    read_html(paste0('https://www.ncwater.org/WUDC/app/LWSP/report.php?pwsid=',
+    PWSID, '&year=',Year))
     print(the_url)
 
 
-water.system.name_revised <- webpage %>% 
+  water.system.name_revised <- webpage %>% 
   html_nodes("div+ table tr:nth-child(1) td:nth-child(2)") %>% html_text()
-pwsid_revised <- webpage %>% 
+  pwsid_revised <- webpage %>% 
   html_nodes("td tr:nth-child(1) td:nth-child(5)") %>% html_text()
-ownership_revised <- webpage %>% 
+  ownership_revised <- webpage %>% 
   html_nodes("div+ table tr:nth-child(2) td:nth-child(4)") %>% html_text()
-max.withdrawals.mgd_revised <- webpage %>% html_nodes("th~ td+ td") %>% html_text()
+  max.withdrawals.mgd_revised <- webpage %>% html_nodes("th~ td+ td") %>% html_text()
 
   
 dataframe <- data.frame("WaterSystemName" = as.character(water.system.name_revised), 
@@ -190,7 +191,7 @@ withdrawals.2015 <- scrape.it (2015, '03-32-010')
 ggplot(withdrawals.2015, aes(x=Date,y=max.withdrawals.mgd_revised)) + 
   geom_point() + 
   labs(title = paste("Durham: Max Daily Withdrawals Across the Months"),
-       subtitle = 2020,
+       subtitle = 2015,
       # scale_x_date(date_breaks="Month"), # code to show all month labels
       #on x-axis not working
        y="Max Withdrawal (mgd)",
@@ -207,12 +208,10 @@ plot that compares the Asheville to Durham's water withdrawals.
 #8
 Asheville.2015 <- scrape.it (2015, '01-11-010')
 
-ggplot(withdrawals.2015, aes(x=Date,y=maxwithdrawals_web)) + 
+ggplot(Asheville.2015, aes(x=Date,y=max.withdrawals.mgd_revised)) + 
   geom_point() + 
-  labs(title = paste("Max Daily Withdrawals Across the Months"),
+  labs(title = paste("Asheville: Max Daily Withdrawals Across the Months"),
        subtitle = 2020,
-      # scale_x_date(date_breaks="Month"), # code to show all month labels 
-      #on x-axis not working
        y="Max Withdrawal (mgd)",
        x="Date")
 
