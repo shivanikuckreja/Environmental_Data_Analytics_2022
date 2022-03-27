@@ -228,7 +228,8 @@ ggplot(Asheville.2015, aes(x=Date,y=MaxWithdrawals)) +
 
 
 9. Use the code & function you created above to plot Asheville's max daily 
-withdrawal by months for the years 2010 thru 2020.Add a smoothed line to the plot.
+withdrawal by months for the years 2010 thru 2020.Add a smoothed line to 
+the plot.
 
 ```{r}
 #9
