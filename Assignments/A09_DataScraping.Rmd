@@ -168,26 +168,12 @@ ownership_revised <- webpage %>%
   html_nodes("div+ table tr:nth-child(2) td:nth-child(4)") %>% html_text()
 max.withdrawals.mgd_revised <- webpage %>% html_nodes("th~ td+ td") %>% html_text()
 
-
-#name_web <- the_url %>% html_nodes(water.system.name) %>% html_text() #runs
-
-#Error in parse_simple_selector(stream) : Expected selector, got <NUMBER '03' at 1>
-#pwsid_web <- the_url %>% html_nodes(pwsid) %>% html_text()
-
-#ownership_web <- the_url %>% html_nodes(ownership) %>% html_text() #runs
-
-#Error in parse_simple_selector(stream) : Expected selector, got <NUMBER '36.0100' at 1>
-#maxwithdrawals_web <- the_url %>% html_nodes(max.withdrawals.mgd) %>% html_text()
-
-#Error in selectr::css_to_xpath(css, prefix = ".//") : 
- # The 'selector' argument must be a character vector
-#month_web <- the_url %>% html_nodes(webpage) %>% html_text()
   
 dataframe <- data.frame("WaterSystemName" = as.character(water.system.name_revised), 
 "PWSID" =  as.character(pwsid_revised),                 
 "Ownership" =  as.character(ownership_revised),
 "MaxWithdrawals" =  as.character(max.withdrawals.mgd_revised),
-#"Month" =  as.character(month_web))
+"Month" =  as.character(Month))
 
 return(dataframe)
 }
@@ -201,11 +187,11 @@ return(dataframe)
 
 withdrawals.2015 <- scrape.it (2015, '03-32-010')
 
-ggplot(withdrawals.2015, aes(x=Date,y=maxwithdrawals_web)) + 
+ggplot(withdrawals.2015, aes(x=Date,y=max.withdrawals.mgd_revised)) + 
   geom_point() + 
-  labs(title = paste("Max Daily Withdrawals Across the Months"),
+  labs(title = paste("Durham: Max Daily Withdrawals Across the Months"),
        subtitle = 2020,
-      # scale_x_date(date_breaks="Month"), # code to show all month labels 
+      # scale_x_date(date_breaks="Month"), # code to show all month labels
       #on x-axis not working
        y="Max Withdrawal (mgd)",
        x="Date")
