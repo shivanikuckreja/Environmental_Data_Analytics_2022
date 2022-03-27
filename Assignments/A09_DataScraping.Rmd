@@ -138,12 +138,12 @@ ggplot(the_df, aes(x=Date,y=max.withdrawals.mgd)) +
   geom_point() + 
   labs(title = paste("Max Daily Withdrawals Across the Months"),
        subtitle = 2020,
-      # scale_x_date(date_breaks="Month"), # code to show all month labels 
+      #scale_x_date(date_breaks="Month"), # code to show all month labels 
       #on x-axis not working
        y="Max Withdrawal (mgd)",
        x="Date")
 
-# geom_line not showing up which is why I am using geom_point
+#geom_line not showing up which is why I am using geom_point
 
 ```
 
@@ -198,19 +198,18 @@ ggplot(withdrawals.2015, aes(x=Date,y=MaxWithdrawals)) +
   geom_point() + 
   labs(title = paste("Durham: Max Daily Withdrawals Across the Months"),
        subtitle = 2015,
-      # scale_x_date(date_breaks="Month"), # code to show all month labels
+      #scale_x_date(date_breaks="Month"), # code to show all month labels
       #on x-axis not working
        y="Max Withdrawal (mgd)",
        x="Date")
-
-# geom_line not showing up which is why I am using geom_point
+#geom_line not showing up which is why I am using geom_point
 ```
 
 8. Use the function above to extract data for Asheville (PWSID = 01-11-010) 
 in 2015. Combine this data with the Durham data collected above and create a 
 plot that compares the Asheville to Durham's water withdrawals.
 
-```{r fetch.and.plot.Durham.2015.data}
+```{r fetch.and.plot.Asheville.2015.data}
 #8
 Asheville.2015 <- scrape.it (2015, '01-11-010')
 
@@ -221,7 +220,7 @@ ggplot(Asheville.2015, aes(x=Date,y=MaxWithdrawals)) +
        y="Max Withdrawal (mgd)",
        x="Date") 
 
-# geom_line not showing up which is why I am using geom_point
+#geom_line not showing up which is why I am using geom_point
 
 #Combine graphs
 
