@@ -161,20 +161,26 @@ scrape.it <- function(Year, PWSID){
     print(the_url)
 
 
-  water.system.name_revised <- webpage %>% 
+  water.system.name_revised <- the_url %>% 
   html_nodes("div+ table tr:nth-child(1) td:nth-child(2)") %>% html_text()
-  pwsid_revised <- webpage %>% 
+  pwsid_revised <- the_url %>% 
   html_nodes("td tr:nth-child(1) td:nth-child(5)") %>% html_text()
-  ownership_revised <- webpage %>% 
+  ownership_revised <- the_url %>% 
   html_nodes("div+ table tr:nth-child(2) td:nth-child(4)") %>% html_text()
-  max.withdrawals.mgd_revised <- webpage %>% html_nodes("th~ td+ td") %>% html_text()
+  max.withdrawals.mgd_revised <- the_url %>% html_nodes("th~ td+ td") %>% html_text()
 
+  
+max.withdrawls.year.new <- Year
   
 dataframe <- data.frame("WaterSystemName" = as.character(water.system.name_revised), 
 "PWSID" =  as.character(pwsid_revised),                 
 "Ownership" =  as.character(ownership_revised),
 "MaxWithdrawals" =  as.character(max.withdrawals.mgd_revised),
-"Month" =  as.character(Month))
+"Month" =  as.character(Month), 
+"Years" = max.withdrawls.year.new)
+
+dataframe <- dataframe %>% 
+  mutate("Date" = my(paste(Month, "-", Year)))
 
 return(dataframe)
 }
@@ -188,7 +194,7 @@ return(dataframe)
 
 withdrawals.2015 <- scrape.it (2015, '03-32-010')
 
-ggplot(withdrawals.2015, aes(x=Date,y=max.withdrawals.mgd_revised)) + 
+ggplot(withdrawals.2015, aes(x=Date,y=MaxWithdrawals)) + 
   geom_point() + 
   labs(title = paste("Durham: Max Daily Withdrawals Across the Months"),
        subtitle = 2015,
@@ -208,10 +214,10 @@ plot that compares the Asheville to Durham's water withdrawals.
 #8
 Asheville.2015 <- scrape.it (2015, '01-11-010')
 
-ggplot(Asheville.2015, aes(x=Date,y=max.withdrawals.mgd_revised)) + 
+ggplot(Asheville.2015, aes(x=Date,y=MaxWithdrawals)) + 
   geom_point() + 
   labs(title = paste("Asheville: Max Daily Withdrawals Across the Months"),
-       subtitle = 2020,
+       subtitle = 2015,
        y="Max Withdrawal (mgd)",
        x="Date")
 
