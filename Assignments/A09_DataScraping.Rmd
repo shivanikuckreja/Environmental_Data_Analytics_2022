@@ -153,14 +153,45 @@ can scrape data for any PWSID and year for which the NC DEQ has data.
 **Be sure to modify the code to reflect the year and site scraped**.
 
 ```{r construct.a.scraping.function}
-#6.# In lesson 
-scrape.it <- function(pwsid){
-  #Get the proper url
-  the_url <- 
-   'https://www.ncwater.org/WUDC/app/LWSP/report.php?pwsid=03-32-010&year=2020',
-                gsub('', year,'',year,'/'))
-                gsub('', pwsid,'',pwsid,'/'))
-# Another ifelse statement for year? 
+#6. 
+scrape.it <- function(Year, PWSID){
+  the_url <- read_html(paste0('https://www.ncwater.org/WUDC/app/LWSP/report.php?pwsid=',
+                    pwsid, '&year=',Year))
+    print(the_url)
+}
+
+
+water.system.name <- webpage %>% 
+  html_nodes("div+ table tr:nth-child(1) td:nth-child(2)") %>% html_text()
+pwsid <- webpage %>% 
+  html_nodes("td tr:nth-child(1) td:nth-child(5)") %>% html_text()
+ownership <- webpage %>% 
+  html_nodes("div+ table tr:nth-child(2) td:nth-child(4)") %>% html_text()
+max.withdrawals.mgd <- webpage %>% html_nodes("th~ td+ td") %>% html_text()
+
+
+
+name_web <- the_url %>% html_nodes(water.system.name) %>% html_text() #runs
+
+#Error in parse_simple_selector(stream) : Expected selector, got <NUMBER '03' at 1>
+pwsid_web <- the_url %>% html_nodes(pwsid) %>% html_text()
+
+ownership_web <- the_url %>% html_nodes(ownership) %>% html_text() #runs
+
+#Error in parse_simple_selector(stream) : Expected selector, got <NUMBER '36.0100' at 1>
+maxwithdrawals_web <- the_url %>% html_nodes(max.withdrawals.mgd) %>% html_text()
+
+#Error in selectr::css_to_xpath(css, prefix = ".//") : 
+ # The 'selector' argument must be a character vector
+month_web <- the_url %>% html_nodes(webpage) %>% html_text()
+  
+dataframe <- data.frame("WaterSystemName" = as.character(name_web), 
+"PWSID" =  as.character(pwsid_web),                 
+"Ownership" =  as.character(ownership_web),
+"MaxWithdrawals" =  as.character(maxwithdrawals_web),
+"Month" =  as.character(month_web))
+
+return(dataframe)
 
 ```
 
@@ -170,6 +201,18 @@ scrape.it <- function(pwsid){
 #7
 #Similar to 5 except use function
 
+withdrawals.2015 <- scrape.it (2015, '03-32-010')
+
+ggplot(withdrawals.2015, aes(x=Date,y=max.withdrawals.mgd)) + 
+  geom_point() + 
+  labs(title = paste("Max Daily Withdrawals Across the Months"),
+       subtitle = 2020,
+      # scale_x_date(date_breaks="Month"), # code to show all month labels 
+      #on x-axis not working
+       y="Max Withdrawal (mgd)",
+       x="Date")
+
+# geom_line not showing up which is why I am using geom_point
 ```
 
 8. Use the function above to extract data for Asheville (PWSID = 01-11-010) 
