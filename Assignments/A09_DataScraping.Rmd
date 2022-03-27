@@ -138,10 +138,11 @@ ggplot(the_df, aes(x=Date,y=max.withdrawals.mgd)) +
   geom_point() + 
   labs(title = paste("Max Daily Withdrawals Across the Months"),
        subtitle = 2020,
+      # scale_x_date(date_breaks="Month"), # code to show all month labels 
+      #on x-axis not working
        y="Max Withdrawal (mgd)",
        x="Date")
-# Only labels certain months on the graph. Can google how to label each month.
-#scale_x_date(date_labels="%b %y",date_breaks  ="1 month") is not working
+
 # geom_line not showing up which is why I am using geom_point
 
 ```
