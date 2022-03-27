@@ -219,11 +219,23 @@ ggplot(Asheville.2015, aes(x=Date,y=MaxWithdrawals)) +
   labs(title = paste("Asheville: Max Daily Withdrawals Across the Months"),
        subtitle = 2015,
        y="Max Withdrawal (mgd)",
-       x="Date")
+       x="Date") 
 
 # geom_line not showing up which is why I am using geom_point
 
-#COMBINE
+#Combine graphs
+
+Newgraph <- rbind(Asheville.2015,withdrawals.2015)
+
+
+ggplot(Newgraph,aes(x=Date,y=MaxWithdrawals)) + 
+  geom_point(data = Asheville.2015, color ='blue') + 
+   geom_point(data = withdrawals.2015, color ='grey') + 
+  labs(title = paste("Durham & Asheville: Max Daily Withdrawals Across the Months"),
+       subtitle = 2015,
+       y="Max Withdrawal (mgd)",
+       x="Date") 
+
 ```
 
 
@@ -237,9 +249,16 @@ Year = seq(2010, 2020)
 pwsid = '01-11-010'
 
 Ashville2010to2020 <- Year %>%
-  map(scrape.it)
+  map(scrape.it, PWSID = '01-11-010') %>% 
+  bind_rows()
 
+
+ggplot(Ashville2010to2020,aes(x=Date,y=MaxWithdrawals)) + 
+  geom_point() +
+  labs(title = paste("Asheville 2010-2020: Max Daily Withdrawals Across the Months"),
+       y="Max Withdrawal (mgd)",
+       x="Date") 
 ```
 
 >Question: Just by looking at the plot (i.e. not running statistics), 
-does Asheville have a trend in water usage over time?
+does Asheville have a trend in water usage over time? No
