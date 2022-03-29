@@ -31,6 +31,7 @@ geometry: margin=2.54cm
 2. Generate a research question(s) that can be answered using data from your dataset. This question(s) should be specific enough to be answered in the time span of the project but complex enough to require all steps in the data pipeline we have discussed in class.
 
 ## POPULATE YOUR REPO AND ANALYZE YOUR DATA
+#types of analyses: timeseries, GLM, spatial visualization
 
 1. Populate your README with the necessary information for the project. This should include your name, information about the course project, and information about the topic of interest. 
 
@@ -42,19 +43,23 @@ geometry: margin=2.54cm
 
 5. When you are ready to do so, copy information from your code files into the "Project_Template.Rmd" file (instructions below). Rename the project template as "Lastname1Lastname2Lastname3_ENV872_Project.Rmd".
 
+
 ## COMPLETE YOUR PROJECT REPORT
 
 ### General Guidelines
 
 1. Write in scientific style, not narrative style
+#hide output or hide message so certain code doesn't show
 
 2. [Global options for R chunks](https://rmarkdown.rstudio.com/lesson-3.html) should be set so that only relevant output is displayed
 
 3. Set up autoreferencing for figures and tables in your document.
+#Have a caption for each table/plot
 
 4. Make sure your final knitted PDF looks professional. Format tables appropriately, size figures appropriately, make sure bulleted and numbered lists appear as such, avoid awkwardly placed page breaks, etc.
 
 5. Make sure the PDF file has the file name "Lastname1Lastname2Lastname3_ENV872_Project.pdf" and submit it to the dropbox in Sakai.
+#do not upload data set and RMD file. Just need to upload PDF
 
 ### Rationale and Research Questions
 Write 1-2 paragraph(s) detailing the rationale for your study. This should include both the context of the topic as well as a rationale for your choice of dataset (reason for location, variables, etc.). You may choose to include citations if you like (optional).
@@ -62,13 +67,18 @@ Write 1-2 paragraph(s) detailing the rationale for your study. This should inclu
 At the end of your rationale, introduce a numbered list of your questions (or an overarching question and sub-questions). 
 
 ### Dataset Information
+#Link to dataset
+#Describe columns
+#Describe wrangling process
 Provide information on how the dataset for this analysis were collected, the data contained in the dataset, and any important pieces of information that are relevant to your analyses. This section should contain much of same information as the metadata file for the dataset but formatted in a way that is more narrative.
 
 Describe how you wrangled your dataset in a format similar to a methods section of a journal article.
 
-Add a table that summarizes your data structure (variables, units, ranges and/or central tendencies, data source if multiple are used, etc.). This table can be made in markdown text or inserted as a `kable` function in an R chunk. If the latter, do not include the code used to generate your table.
+Add a table that summarizes your data structure (variables, units, ranges and/or central tendencies, data source if multiple are used, etc.). This table can be made in markdown text or inserted as a `kable` function in an R chunk. If the latter, do not include the code used to generate your table. 
+
 
 ### Exploratory Analysis
+#initial plots we make. First analyses we do when we are trying to identify which variables will be good regressors for the data
 Insert exploratory visualizations of your dataset. This may include, but is not limited to, graphs illustrating the distributions of variables of interest and/or maps of the spatial context of your dataset. Format your R chunks so that graphs are displayed but code is not displayed. Accompany these graphs with text sections that describe the visualizations and provide context for further analyses.
 
 Each figure should be accompanied by a caption, and each figure should be referenced within the text. 

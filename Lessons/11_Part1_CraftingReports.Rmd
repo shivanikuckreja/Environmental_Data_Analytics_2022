@@ -65,10 +65,19 @@ See: <https://rmarkdown.rstudio.com> and class recording.
 
 <Fill in our discussion below with bullet points. Use italics and bold for emphasis (hint: use the cheat sheets or `Help` →`Markdown Quick Reference` to figure out how to make bold and italic text).> 
 
+#organized, clean
+#transparent
+#easy output 
+#easy to share/collaborate on 
+#easy to reproduce (don't have to paste visuals into Word)
+#version control with Github
+
+
 
 ## TEXT EDITING CHALLENGE
 
 Create a table below that details the example datasets we have been using in class. The first column should contain the names of the datasets and the second column should include some relevant information about the datasets. (Hint: use the cheat sheets to figure out how to make a table in Rmd)
+
 
 
 ## R CHUNK EDITING CHALLENGE

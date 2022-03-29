@@ -93,6 +93,8 @@ Below we read in the USA counties shapefile, filtering for just the NC features 
 counties_sf<- st_read('./Data/Spatial/cb_2018_us_county_20m.shp') %>% 
   filter(STATEFP == 37) #Filter for just NC Counties
 
+
+
 #
 colnames(counties_sf)
 
@@ -217,11 +219,6 @@ svi2018_nc_raw <- read.csv(
 #Check structure
 str(svi2018_nc_raw)
 
-#Join the SVI attributes to the county spatial features
-counties_sf_join <-  merge(x = counties_sf,
-                           y = svi2018_nc_raw, 
-                           by.x = "GEOID", 
-                           by.y = "FIPS" )
 
 #Tidyverse version of the join
 counties_sf_join <- counties_sf %>% 
