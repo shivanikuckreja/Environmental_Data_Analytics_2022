@@ -169,6 +169,9 @@ Create a fourth and fifth R chunk that generates two plots (one in each chunk): 
 
 ```
 
+```{r}
+
+```
 
 ### Communicating results
 
