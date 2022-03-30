@@ -102,9 +102,6 @@ install.packages('knitr')
 
 Create an R chunk below called "setup" that checks your working directory, loads the packages `tidyverse`, `lubridate`, and `knitr`, and sets a ggplot theme. Remember that you need to disable R throwing a message, which contains a check mark that cannot be knitted.
 
-Load the NTL-LTER_Lake_Nutrients_Raw dataset, display the head of the dataset, and set the date column to a date format.
-
-Customize the chunk options such that the code is run but is not displayed in the final document.
 ```{r, message = FALSE}
 
 getwd()
@@ -117,6 +114,24 @@ mytheme <- theme_classic(base_size = 14) +
 legend.position = "top") #alternative: legend.position + legend.justification
 
 theme_set(mytheme)
+
+```
+
+Load the NTL-LTER_Lake_Nutrients_Raw dataset, display the head of the dataset, and set the date column to a date format.
+
+Customize the chunk options such that the code is run but is not displayed in the final document.
+```{r, include = FALSE}
+Nutrients.Raw <-
+  read.csv("./Data/Raw/NTL-LTER_Lake_Nutrients_Raw.csv", 
+           stringsAsFactors = TRUE)
+
+# DISPLAY HEAD OF DATASET?? 
+
+
+class(Nutrients.Raw) 
+# Change date to date object
+Nutrients.Raw$sampledate <- mdy(Nutrients.Raw$sampledate))
+
 ```
 
 
@@ -129,10 +144,18 @@ Create an R chunk below to create a processed dataset do the following operation
 -   Drop rows with missing data
 ```{r}
 
+Nutrients.Wrangled <- Nutrients.Raw %>% 
+filter(depth %in% c("0")) %>%
+select(lakename,year4,daynum,sampledate,depth,tn_ug,tp_ug,nh34,no23,po4)%>%
+filter(!is.na(lakename) & !is.na(year4) & !is.na(daynum) & !is.na(sampledate) 
+       & !is.na(depth) & !is.na(tn_ug) & !is.na(tp_ug) & !is.na(nh34) 
+& !is.na(no23) & !is.na(po4))
+
 ```
 
 Create a second R chunk to create a summary dataset with the mean, minimum, maximum, and standard deviation of total nitrogen concentrations for each lake. Create a second summary dataset that is identical except that it evaluates total phosphorus. Customize the chunk options such that the code is run but not displayed in the final document.
-```{r}
+```{r, include = FALSE}
+
 
 ```
 
