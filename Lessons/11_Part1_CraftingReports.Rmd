@@ -63,15 +63,15 @@ See: <https://rmarkdown.rstudio.com> and class recording.
 
 ## WHY R MARKDOWN?
 
-<Fill in our discussion below with bullet points. Use italics and bold for emphasis (hint: use the cheat sheets or `Help` →`Markdown Quick Reference` to figure out how to make bold and italic text).> 
+<Fill in our discussion below with bullet points. Use italics and bold for emphasis (hint: use the cheat sheets or `Help` →`Markdown Quick Reference` to figure out how to make bold and italic text).>  
 
-#organized, clean
-#transparent
-#easy output 
-#easy to share/collaborate on 
-#easy to reproduce (don't have to paste visuals into Word)
-#version control with Github
-
+* R Markdown keeps information **organized** and **clean**  
+* It is *transparent*  
+* It provides **easy output**   
+* R Markdown is *easy to share* and generally collaborate on   
+* It is easy to reproduce (you don't have to paste visuals into Word)  
+* There is **version control** with Github  
+* Can handle many languages  
 
 
 ## TEXT EDITING CHALLENGE
@@ -79,13 +79,21 @@ See: <https://rmarkdown.rstudio.com> and class recording.
 Create a table below that details the example datasets we have been using in class. The first column should contain the names of the datasets and the second column should include some relevant information about the datasets. (Hint: use the cheat sheets to figure out how to make a table in Rmd)
 
 
+Names of Datasets  | Relevant Information
+-----------------  | --------------------
+NIWO_Litter        |  Litter Mass across NLCD classes
+NTL-LTER           |  Peter and Paul lakes' tp_ug and po4 levels
+Ozone_TimeSeries   |  Daily max 8-hour ozone concentrations
+ECOTOX_Neonic.     |  Impacts of neonicotinoids on insects
 
 ## R CHUNK EDITING CHALLENGE
 
 ### Installing packages
 
 Create an R chunk below that installs the package `knitr`. Instead of commenting out the code, customize the chunk options such that the code is not evaluated (i.e., not run).
-```{r}
+```{r install.pakacges, eval=FALSE}
+
+install.packages('knitr')
 
 ```
 
@@ -97,8 +105,18 @@ Create an R chunk below called "setup" that checks your working directory, loads
 Load the NTL-LTER_Lake_Nutrients_Raw dataset, display the head of the dataset, and set the date column to a date format.
 
 Customize the chunk options such that the code is run but is not displayed in the final document.
-```{r}
+```{r, message = FALSE}
 
+getwd()
+library(tidyverse)
+library(lubridate)
+library(knitr)
+
+mytheme <- theme_classic(base_size = 14) +
+  theme(axis.text = element_text(color = "blue"), 
+legend.position = "top") #alternative: legend.position + legend.justification
+
+theme_set(mytheme)
 ```
 
 
