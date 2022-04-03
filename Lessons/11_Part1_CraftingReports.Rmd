@@ -168,7 +168,7 @@ Create an R chunk below to create a processed dataset do the following operation
 
 Nutrients.Wrangled <- Nutrients.Raw %>% 
 filter(depth %in% c("0")) %>%
-select(lakename,year4,daynum,sampledate,depth,tn_ug,tp_ug,nh34,no23,po4)%>%
+select(lakename,year4,daynum,sampledate,depth,tn_ug,tp_ug,nh34,no23,po4) %>%
 filter(!is.na(lakename) & !is.na(year4) & !is.na(daynum) & !is.na(sampledate) 
        & !is.na(depth) & !is.na(tn_ug) & !is.na(tp_ug) & !is.na(nh34) 
 & !is.na(no23) & !is.na(po4))
@@ -204,16 +204,36 @@ Nutrients.Wrangled.Summary.Phosphorus <-
 ```
 
 Create a third R chunk that uses the function `kable` in the knitr package to display two tables: one for the summary dataframe for total N and one for the summary dataframe of total P. Use the `caption = " "` code within that function to title your tables. Customize the chunk options such that the final table is displayed but not the code used to generate the table.
-```{r}
+```{r, echo = FALSE}
+
+kable(Nutrients.Raw, 
+      caption = "Summary Dataframe for Total Nitrogen")
+
+kable(Nutrients.Wrangled.Summary.Phosphorus, 
+      caption = "Summary Dataframe for Total Phosphorus")
 
 ```
 
 Create a fourth and fifth R chunk that generates two plots (one in each chunk): one for total N over time with different colors for each lake, and one with the same setup but for total P. Decide which geom option will be appropriate for your purpose, and select a color palette that is visually pleasing and accessible. Customize the chunk options such that the final figures are displayed but not the code used to generate the figures. In addition, customize the chunk options such that the figures are aligned on the left side of the page. Lastly, add a fig.cap chunk option to add a caption (title) to your plot that will display underneath the figure.
-```{r}
+```{r, echo = FALSE}
+
+TotalN <- Nutrients.Raw %>% 
+select(tn_ug, year4, lakename) %>%
+filter(!is.na(tn_ug) & !is.na(year4) & !is.na(lakename))
+
+ggplot(TotalN) +
+  geom_point(aes(x = year4, y = tn_ug, color=lakename)) +
+  ylab('tn_ug') 
+  fig.align = 'left'
+  title='Total Nitrogen Over Time'
 
 ```
 
-```{r}
+```{r, echo = FALSE}
+
+TotalP <- Nutrients.Raw %>% 
+select(tp_ug, year4) %>%
+filter(!is.na(tp_ug) & !is.na(year4))
 
 ```
 
