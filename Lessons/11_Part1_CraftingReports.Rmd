@@ -223,17 +223,27 @@ filter(!is.na(tn_ug) & !is.na(year4) & !is.na(lakename))
 
 ggplot(TotalN) +
   geom_point(aes(x = year4, y = tn_ug, color=lakename)) +
-  ylab('tn_ug') 
+  ylab('tn_ug') +
+  labs(title = paste("Total Nitrogen Over Time"))
   fig.align = 'left'
   title='Total Nitrogen Over Time'
+  caption.placement = "bottom" #code not working, so title is on top 
 
 ```
 
 ```{r, echo = FALSE}
 
 TotalP <- Nutrients.Raw %>% 
-select(tp_ug, year4) %>%
-filter(!is.na(tp_ug) & !is.na(year4))
+select(tp_ug, year4, lakename) %>%
+filter(!is.na(tp_ug) & !is.na(year4) & !is.na(lakename))
+
+ggplot(TotalP) +
+  geom_point(aes(x = year4, y = tp_ug, color=lakename)) +
+  ylab('tp_ug') +
+  labs(title = paste("Total Phosphorus Over Time"))
+  fig.align = 'left'
+  title='Total Phosphorus Over Time'
+  caption.placement = "bottom" #code not working, so title is on top 
 
 ```
 
@@ -241,6 +251,11 @@ filter(!is.na(tp_ug) & !is.na(year4))
 
 Write a paragraph describing your findings from the R coding challenge above. This should be geared toward an educated audience but one that is not necessarily familiar with the dataset. Then insert a horizontal rule below the paragraph. Below the horizontal rule, write another paragraph describing the next steps you might take in analyzing this dataset. What questions might you be able to answer, and what analyses would you conduct to answer those questions?
 
+TEST 
+
+******
+
+TEST 
 
 ## KNIT YOUR PDF
 When you have completed the above steps, try knitting your PDF to see if all of the formatting options you specified turned out as planned. This may take some troubleshooting.
