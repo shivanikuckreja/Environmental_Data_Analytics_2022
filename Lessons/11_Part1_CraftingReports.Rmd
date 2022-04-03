@@ -107,7 +107,7 @@ ECOTOX_Neonic.     |  Impacts of neonicotinoids on insects
 Create an R chunk below that installs the package `knitr`. Instead of 
 commenting out the code, customize the chunk options such that the code is 
 not evaluated (i.e., not run).
-```{r install.pakacges, eval=FALSE}
+```{r install.packages, eval=FALSE}
 
 install.packages('knitr')
 
@@ -121,7 +121,7 @@ loads the packages `tidyverse`, `lubridate`, and `knitr`, and sets a ggplot
 theme. Remember that you need to disable R throwing a message, which contains 
 a check mark that cannot be knitted.
 
-```{r, message = FALSE}
+```{r, setup, message = FALSE}
 
 getwd()
 library(tidyverse)
@@ -141,7 +141,7 @@ and set the date column to a date format.
 
 Customize the chunk options such that the code is run but is not displayed in 
 the final document.
-```{r, include = FALSE}
+```{r, raw nutrients, include = FALSE}
 Nutrients.Raw <-
   read.csv("../Data/Raw/NTL-LTER_Lake_Nutrients_Raw.csv", 
            stringsAsFactors = TRUE)
@@ -166,7 +166,7 @@ Create an R chunk below to create a processed dataset do the following operation
 -   Include all columns except lakeid, depth_id, and comments
 -   Include only surface samples (depth = 0 m)
 -   Drop rows with missing data
-```{r}
+```{r, processed data}
 
 Nutrients.Wrangled <- Nutrients.Raw %>% 
 filter(depth %in% c("0")) %>%
@@ -182,7 +182,7 @@ maximum, and standard deviation of total nitrogen concentrations for each lake.
 Create a second summary dataset that is identical except that it evaluates 
 total phosphorus. Customize the chunk options such that the code is run but 
 not displayed in the final document.
-```{r, include = FALSE}
+```{r, summary dataset, include = FALSE}
 
 #Summary of total nitrogen concentrations for each lake
 Nutrients.Wrangled.Summary.Nitrogen <- 
@@ -205,8 +205,12 @@ Nutrients.Wrangled.Summary.Phosphorus <-
             sdTP = sd(tp_ug))
 ```
 
-Create a third R chunk that uses the function `kable` in the knitr package to display two tables: one for the summary dataframe for total N and one for the summary dataframe of total P. Use the `caption = " "` code within that function to title your tables. Customize the chunk options such that the final table is displayed but not the code used to generate the table.
-```{r, echo = FALSE}
+Create a third R chunk that uses the function `kable` in the knitr package 
+to display two tables: one for the summary dataframe for total N and one 
+for the summary dataframe of total P. Use the `caption = " "` code within that 
+function to title your tables. Customize the chunk options such that the final 
+table is displayed but not the code used to generate the table.
+```{r, kable, echo = FALSE}
 
 kable(Nutrients.Wrangled.Summary.Nitrogen, 
       caption = "Summary Dataframe for Total Nitrogen")
@@ -216,7 +220,15 @@ kable(Nutrients.Wrangled.Summary.Phosphorus,
 
 ```
 
-Create a fourth and fifth R chunk that generates two plots (one in each chunk): one for total N over time with different colors for each lake, and one with the same setup but for total P. Decide which geom option will be appropriate for your purpose, and select a color palette that is visually pleasing and accessible. Customize the chunk options such that the final figures are displayed but not the code used to generate the figures. In addition, customize the chunk options such that the figures are aligned on the left side of the page. Lastly, add a fig.cap chunk option to add a caption (title) to your plot that will display underneath the figure.
+Create a fourth and fifth R chunk that generates two plots (one in each chunk):
+one for total N over time with different colors for each lake, and one with the 
+same setup but for total P. Decide which geom option will be appropriate for 
+your purpose, and select a color palette that is visually pleasing and accessible. 
+Customize the chunk options such that the final figures are displayed but not 
+the code used to generate the figures. In addition, customize the chunk options 
+such that the figures are aligned on the left side of the page. Lastly, add a 
+fig.cap chunk option to add a caption (title) to your plot that will display 
+underneath the figure.
 ```{r, echo = FALSE}
 
 TotalN <- Nutrients.Raw %>% 
@@ -233,7 +245,7 @@ ggplot(TotalN) +
 
 ```
 
-```{r, echo = FALSE}
+```{r, plot, echo = FALSE}
 
 TotalP <- Nutrients.Raw %>% 
 select(tp_ug, year4, lakename) %>%
@@ -251,7 +263,12 @@ ggplot(TotalP) +
 
 ### Communicating results
 
-Write a paragraph describing your findings from the R coding challenge above. This should be geared toward an educated audience but one that is not necessarily familiar with the dataset. Then insert a horizontal rule below the paragraph. Below the horizontal rule, write another paragraph describing the next steps you might take in analyzing this dataset. What questions might you be able to answer, and what analyses would you conduct to answer those questions?
+Write a paragraph describing your findings from the R coding challenge above. 
+This should be geared toward an educated audience but one that is not necessarily 
+familiar with the dataset. Then insert a horizontal rule below the paragraph. 
+Below the horizontal rule, write another paragraph describing the next steps 
+you might take in analyzing this dataset. What questions might you be able to 
+answer, and what analyses would you conduct to answer those questions?
 
 Both nitrogen and phosphorus had *higher total levels* between 1990 and 2000
 compared to between 2000 and 2010. Both also experienced a peak around 2012.
@@ -269,11 +286,15 @@ relation to each other, to see if certain lakes within close proximity
 of each other have simlar nitrogen and/or phosphorus levels. 
 
 ## KNIT YOUR PDF
-When you have completed the above steps, try knitting your PDF to see if all of the formatting options you specified turned out as planned. This may take some troubleshooting.
+When you have completed the above steps, try knitting your PDF to see if all 
+of the formatting options you specified turned out as planned. This may take some troubleshooting.
 
 ## OTHER R MARKDOWN CUSTOMIZATION OPTIONS
 
-We have covered the basics in class today, but R Markdown offers many customization options. A word of caution: customizing templates will often require more interaction with LaTeX and installations on your computer, so be ready to troubleshoot issues.
+We have covered the basics in class today, but R Markdown offers many customization 
+options. A word of caution: customizing templates will often require more 
+interaction with LaTeX and installations on your computer, so be ready to 
+troubleshoot issues.
 
 Customization options for pdf output include: 
 
