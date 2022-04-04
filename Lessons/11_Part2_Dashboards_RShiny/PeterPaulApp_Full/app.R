@@ -14,8 +14,8 @@ nutrient_data <- nutrient_data %>%
   select(lakename, sampledate:po4)
 
 #### Define UI ----
-ui <- fluidPage(theme = shinytheme("yeti"),
-  titlePanel("Nutrients in Peter Lake and Paul Lake"),
+ui <- fluidPage(theme = shinytheme("superhero"),
+  titlePanel("Nutrients in Peter and Paul Lakes"),
   sidebarLayout(
     sidebarPanel(
       
