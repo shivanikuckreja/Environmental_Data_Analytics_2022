@@ -1,7 +1,7 @@
 ---
 title: '11: Crafting Reports'
 author: Environmental Data Analytics | John Fay & Luana Lima | Developed by 
-Kateri Salk. Completed by Shivani Kuckreja
+Kateri Salk
 date: "Spring 2022"
 output:
  pdf_document: default
@@ -108,6 +108,7 @@ Create an R chunk below that installs the package `knitr`. Instead of
 commenting out the code, customize the chunk options such that the code is 
 not evaluated (i.e., not run).
 ```{r install.packages, eval=FALSE}
+# Shivani Kuckreja's assignment 
 
 install.packages('knitr')
 

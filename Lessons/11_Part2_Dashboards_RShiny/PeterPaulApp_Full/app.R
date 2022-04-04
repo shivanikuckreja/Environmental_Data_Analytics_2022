@@ -1,4 +1,8 @@
 #### Load packages ----
+#install.packages("shiny")
+#install.packages("shinythemes")
+#install.packages("tidyverse")
+getwd()
 library(shiny)
 library(shinythemes)
 library(tidyverse)
