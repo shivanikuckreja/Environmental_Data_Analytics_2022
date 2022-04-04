@@ -1,7 +1,6 @@
 ---
 title: '11: Crafting Reports'
-author: Environmental Data Analytics | John Fay & Luana Lima | Developed by 
-Kateri Salk
+author: "Environmental Data Analytics | Adapted by John Fay and Luana Lima | Developed by Kateri Salk"
 date: "Spring 2022"
 output:
  pdf_document: default
@@ -143,8 +142,7 @@ and set the date column to a date format.
 Customize the chunk options such that the code is run but is not displayed in 
 the final document.
 ```{r, raw nutrients, include = FALSE}
-Nutrients.Raw <-
-  read.csv("../Data/Raw/NTL-LTER_Lake_Nutrients_Raw.csv", 
+Nutrients.Raw <- read.csv("../Data/Raw/NTL-LTER_Lake_Nutrients_Raw.csv", 
            stringsAsFactors = TRUE)
 
 # Display head of dataset
